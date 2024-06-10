@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Scroll Block</string>
+    <string name="accessibility_service_description">Stop you from scrolling</string>
+</resources>
