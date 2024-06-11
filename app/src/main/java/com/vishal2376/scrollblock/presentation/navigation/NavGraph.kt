@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.vishal2376.scrollblock.presentation.homescreen.HomeScreen
+import com.vishal2376.scrollblock.presentation.home.HomeScreen
 
 
 @Composable

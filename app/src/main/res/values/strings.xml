@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Scroll Block</string>
     <string name="accessibility_service_description">Stop you from scrolling</string>
+    <string name="service_desc">This allows us to block scroll in real-time, ensuring you stay focused</string>
 </resources>
