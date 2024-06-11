@@ -25,26 +25,23 @@ import androidx.compose.ui.unit.dp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppInfo
 import com.vishal2376.scrollblock.presentation.common.h2style
+import com.vishal2376.scrollblock.presentation.common.h3style
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.white
 
 @Composable
-fun AppInfoComponent() {
+fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: () -> Unit) {
 	Row(
-		modifier = Modifier
+		modifier = modifier
 			.fillMaxWidth()
 			.clip(RoundedCornerShape(16.dp))
 			.background(MaterialTheme.colorScheme.secondary)
-			.padding(16.dp),
+			.padding(16.dp,12.dp),
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(16.dp)
 	) {
-		val app = AppInfo(
-			icon = R.drawable.instagram,
-			name = "Instagram",
-			status = true
-		)
+
 		val isEnabled by remember { mutableStateOf(app.status) }
 
 		Image(
@@ -54,12 +51,12 @@ fun AppInfoComponent() {
 		Text(
 			modifier = Modifier.weight(1f),
 			text = app.name,
-			style = h2style,
+			style = h3style,
 			color = MaterialTheme.colorScheme.onPrimary
 		)
 		Switch(colors = SwitchDefaults.colors(checkedTrackColor = white, checkedThumbColor = blue),
 			checked = isEnabled, onCheckedChange = {
-//			toggleStatus()
+				toggleStatus()
 			})
 	}
 }
@@ -68,6 +65,11 @@ fun AppInfoComponent() {
 @Composable
 private fun AppInfoComponentPreview() {
 	ScrollBlockTheme {
-		AppInfoComponent()
+		val app = AppInfo(
+			icon = R.drawable.instagram,
+			name = "Instagram",
+			status = true
+		)
+		AppInfoComponent(app = app, toggleStatus = {})
 	}
 }

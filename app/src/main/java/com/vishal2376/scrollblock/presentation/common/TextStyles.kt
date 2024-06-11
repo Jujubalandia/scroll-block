@@ -29,6 +29,11 @@ val h2style = TextStyle(
 	fontFamily = fontPoppins
 )
 
+val h3style = TextStyle(
+	fontSize = 18.sp,
+	fontFamily = fontPoppins
+)
+
 val descriptionStyle = TextStyle(
 	fontSize = 16.sp,
 	fontFamily = fontPoppins,
