@@ -19,12 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppInfo
-import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.h3style
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blue
@@ -37,7 +37,7 @@ fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: 
 			.fillMaxWidth()
 			.clip(RoundedCornerShape(16.dp))
 			.background(MaterialTheme.colorScheme.secondary)
-			.padding(16.dp,12.dp),
+			.padding(12.dp, 8.dp),
 		verticalAlignment = Alignment.CenterVertically,
 		horizontalArrangement = Arrangement.spacedBy(16.dp)
 	) {
@@ -46,7 +46,7 @@ fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: 
 
 		Image(
 			painter = painterResource(id = app.icon), contentDescription = null,
-			modifier = Modifier.size(48.dp)
+			modifier = Modifier.size(40.dp)
 		)
 		Text(
 			modifier = Modifier.weight(1f),
@@ -54,8 +54,10 @@ fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: 
 			style = h3style,
 			color = MaterialTheme.colorScheme.onPrimary
 		)
-		Switch(colors = SwitchDefaults.colors(checkedTrackColor = white, checkedThumbColor = blue),
-			checked = isEnabled, onCheckedChange = {
+		Switch(modifier = Modifier.scale(0.9f),
+			colors = SwitchDefaults.colors(checkedTrackColor = white, checkedThumbColor = blue),
+			checked = isEnabled,
+			onCheckedChange = {
 				toggleStatus()
 			})
 	}
