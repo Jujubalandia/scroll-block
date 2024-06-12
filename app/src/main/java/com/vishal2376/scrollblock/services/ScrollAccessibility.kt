@@ -1,13 +1,15 @@
 package com.vishal2376.scrollblock.services
 
 import android.accessibilityservice.AccessibilityService
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import com.vishal2376.scrollblock.utils.NOTIFICATION_ID
 import com.vishal2376.scrollblock.utils.NotificationHelper
 import com.vishal2376.scrollblock.utils.SupportedApps
 
 class ScrollAccessibility : AccessibilityService() {
+	private var scrollCount = 0
+	private var currentIndex = 0
 
 	private val supportedApps = listOf(
 		SupportedApps.Instagram,
@@ -25,6 +27,8 @@ class ScrollAccessibility : AccessibilityService() {
 	}
 
 	override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+
+
 		event?.let {
 			supportedApps.forEach {
 				if (event.packageName == it.packageName) {
@@ -32,15 +36,25 @@ class ScrollAccessibility : AccessibilityService() {
 					val viewId = "${it.packageName}:id/${it.blockId}"
 					val nodeInfo = rootInActiveWindow.findAccessibilityNodeInfosByViewId(viewId)
 
-					if (nodeInfo.isNotEmpty()) {
-						// Press Back Button
-						performGlobalAction(GLOBAL_ACTION_BACK)
+					if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+						Log.d("@@@", "Windows Changed")
+					}
 
-						Toast.makeText(
-							this@ScrollAccessibility,
-							"Feature Blocked",
-							Toast.LENGTH_SHORT
-						).show()
+					if (nodeInfo.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
+						if (currentIndex != event.fromIndex) {
+							scrollCount++
+							currentIndex = event.fromIndex
+							Log.d("@@@", "Scroll Count: $scrollCount")
+						}
+
+						// Press Back Button
+//						performGlobalAction(GLOBAL_ACTION_BACK)
+
+//						Toast.makeText(
+//							this@ScrollAccessibility,
+//							"Feature Blocked",
+//							Toast.LENGTH_SHORT
+//						).show()
 
 					}
 				}
