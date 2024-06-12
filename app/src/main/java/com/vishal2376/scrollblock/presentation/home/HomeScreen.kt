@@ -80,7 +80,7 @@ fun HomeScreen() {
 								fontFamily = fontMontserrat,
 							)
 							Text(
-								text = "scrolls",
+								text = "scroll",
 								textAlign = TextAlign.Center,
 								style = descriptionStyle
 							)
@@ -163,7 +163,7 @@ fun HomeScreen() {
 				)
 
 				supportedApps.forEach {
-					AppInfoComponent(app = it) {
+					AppInfoComponent(app = it, index = supportedApps.indexOf(it)) {
 						// todo: implement function to toggle status
 					}
 
