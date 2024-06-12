@@ -3,6 +3,9 @@ import java.util.Properties
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	id("com.google.devtools.ksp")
+	kotlin("kapt")
+	id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -67,6 +70,12 @@ android {
 			excludes += "/META-INF/{AL2.0,LGPL2.1}"
 		}
 	}
+	ksp {
+		arg(
+			"room.schemaLocation",
+			"$projectDir/schemas"
+		)
+	}
 }
 
 dependencies {
@@ -82,6 +91,16 @@ dependencies {
 
 	//navigation
 	implementation(libs.androidx.navigation.compose)
+
+	//room
+	implementation(libs.androidx.room.runtime)
+	annotationProcessor(libs.androidx.room.compiler)
+	implementation(libs.androidx.room.ktx)
+	ksp(libs.androidx.room.compiler)
+
+	//hilt
+	implementation(libs.hilt.android)
+	kapt(libs.hilt.android.compiler)
 
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
