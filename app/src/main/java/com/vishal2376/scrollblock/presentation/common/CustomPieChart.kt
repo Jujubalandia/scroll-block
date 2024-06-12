@@ -38,7 +38,7 @@ fun CustomPieChart(
 	var newStartAngle = startAngle
 
 	// animations
-	val animationProgress = remember { Animatable(1f) }
+	val animationProgress = remember { Animatable(0f) }
 	LaunchedEffect(Unit) {
 		animationProgress.animateTo(1f, animationSpec = tween(animDuration))
 	}
