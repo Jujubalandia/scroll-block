@@ -65,9 +65,13 @@ fun HomeScreen() {
 					horizontalAlignment = Alignment.CenterHorizontally,
 				) {
 					// pie chart
-					Box(modifier = Modifier.clickable {
-						// todo: navigate to analytics screen
-					}, contentAlignment = Alignment.Center) {
+					Box(
+						modifier = Modifier
+							.clip(CircleShape)
+							.clickable {
+								// todo: navigate to analytics screen
+							}, contentAlignment = Alignment.Center
+					) {
 						Column(horizontalAlignment = Alignment.CenterHorizontally) {
 							Text(
 								text = "760",

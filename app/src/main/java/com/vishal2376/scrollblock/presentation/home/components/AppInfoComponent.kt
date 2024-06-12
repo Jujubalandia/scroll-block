@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +43,7 @@ fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: 
 		horizontalArrangement = Arrangement.spacedBy(16.dp)
 	) {
 
-		val isEnabled by remember { mutableStateOf(app.status) }
+		var isEnabled by remember { mutableStateOf(app.status) }
 
 		Image(
 			painter = painterResource(id = app.icon), contentDescription = null,
@@ -59,6 +60,7 @@ fun AppInfoComponent(modifier: Modifier = Modifier, app: AppInfo, toggleStatus: 
 			checked = isEnabled,
 			onCheckedChange = {
 				toggleStatus()
+				isEnabled = !isEnabled
 			})
 	}
 }
