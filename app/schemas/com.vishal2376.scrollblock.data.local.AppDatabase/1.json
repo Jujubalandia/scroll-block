@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d73f3c35d59072173a2f4a445543f18b",
+    "identityHash": "d2dc721399fad14e10465c617b8d2e55",
     "entities": [
       {
         "tableName": "AppUsage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`usageId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `appPackageName` TEXT NOT NULL, `date` TEXT NOT NULL, `scrollCount` INTEGER NOT NULL, `timeSpent` INTEGER NOT NULL, `appOpenCount` INTEGER NOT NULL, `scrollsBlocked` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`usageId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `packageName` TEXT NOT NULL, `date` TEXT NOT NULL, `scrollCount` INTEGER NOT NULL, `timeSpent` INTEGER NOT NULL, `appOpenCount` INTEGER NOT NULL, `scrollsBlocked` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "usageId",
@@ -15,8 +15,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "appPackageName",
-            "columnName": "appPackageName",
+            "fieldPath": "packageName",
+            "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -138,7 +138,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd73f3c35d59072173a2f4a445543f18b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd2dc721399fad14e10465c617b8d2e55')"
     ]
   }
 }

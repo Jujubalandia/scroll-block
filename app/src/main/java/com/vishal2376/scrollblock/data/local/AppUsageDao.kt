@@ -11,7 +11,7 @@ interface AppUsageDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertAppUsage(appUsage: AppUsage)
 
-	@Query("SELECT * FROM AppUsage WHERE appPackageName = :appPackageName")
+	@Query("SELECT * FROM AppUsage WHERE packageName = :appPackageName")
 	suspend fun getAppUsageByPackageName(appPackageName: String): List<AppUsage>
 
 	@Query("SELECT * FROM AppUsage")
