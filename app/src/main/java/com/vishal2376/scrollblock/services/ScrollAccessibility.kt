@@ -1,7 +1,6 @@
 package com.vishal2376.scrollblock.services
 
 import android.accessibilityservice.AccessibilityService
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.vishal2376.scrollblock.data.local.AppUsageDao
 import com.vishal2376.scrollblock.data.local.SummaryDao
@@ -14,10 +13,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ScrollAccessibility() : AccessibilityService() {
+class ScrollAccessibility : AccessibilityService() {
 	@Inject
 	lateinit var appUsageDao: AppUsageDao
 
@@ -25,6 +25,8 @@ class ScrollAccessibility() : AccessibilityService() {
 	lateinit var summaryDao: SummaryDao
 
 	private var currentIndex = 0
+	private var startTime = 0
+	private var endTime = 0
 
 	// App Usage Info
 	private var appPackageName = ""
@@ -51,32 +53,38 @@ class ScrollAccessibility() : AccessibilityService() {
 
 	override fun onAccessibilityEvent(event: AccessibilityEvent?) {
 		event?.let {
-			// Detect Window Changes & Save Data
+			// Detect Window Changes
 			if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
 				if (appScrollCount != 0 && appPackageName.isNotEmpty()) {
+					// Calculate App Usage
+					endTime = LocalTime.now().toSecondOfDay()
+					appTimeSpent = endTime - startTime
+					appOpenCount++
+
+					// Save App Usage in DB
 					saveAppUsage()
 				}
-
-				Log.d("@@@", "Windows Changed")
 			}
 
 			supportedApps.forEach {
 				if (event.packageName == it.packageName) {
 					appPackageName = it.packageName
 
-					// Detect specific Node
+					// Detect targeted content
 					val viewId = "${it.packageName}:id/${it.blockId}"
-					val nodeInfo = rootInActiveWindow.findAccessibilityNodeInfosByViewId(viewId)
+					val blockContent = rootInActiveWindow.findAccessibilityNodeInfosByViewId(viewId)
 
 					// Detect Scrolling
-					if (nodeInfo.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
+					if (blockContent.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
+						// Start Scrolling time
+						if (startTime == 0) {
+							startTime = LocalTime.now().toSecondOfDay()
+						}
 
 						// Detect single scroll per content
 						if (currentIndex != event.fromIndex) {
 							appScrollCount++
 							currentIndex = event.fromIndex
-
-							Log.d("@@@", "Scroll Count: $appScrollCount")
 						}
 
 					}
@@ -107,6 +115,9 @@ class ScrollAccessibility() : AccessibilityService() {
 		appTimeSpent = 0
 		appOpenCount = 0
 		appScrollBlocked = 0
+
+		startTime = 0
+		endTime = 0
 	}
 
 	override fun onInterrupt() {
