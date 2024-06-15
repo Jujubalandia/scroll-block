@@ -1,6 +1,7 @@
 package com.vishal2376.scrollblock.services
 
 import android.accessibilityservice.AccessibilityService
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.vishal2376.scrollblock.data.local.AppUsageDao
 import com.vishal2376.scrollblock.data.local.SummaryDao
@@ -15,6 +16,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 @AndroidEntryPoint
 class ScrollAccessibility : AccessibilityService() {
@@ -58,7 +61,7 @@ class ScrollAccessibility : AccessibilityService() {
 				if (appScrollCount != 0 && appPackageName.isNotEmpty()) {
 					// Calculate App Usage
 					endTime = LocalTime.now().toSecondOfDay()
-					appTimeSpent = endTime - startTime
+					appTimeSpent = max(0,endTime - startTime)
 					appOpenCount++
 
 					// Save App Usage in DB
