@@ -40,7 +40,7 @@ import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.white
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(scrollCountList: List<Int>) {
 	Scaffold { innerPadding ->
 		Column(
 			modifier = Modifier
@@ -74,7 +74,7 @@ fun HomeScreen() {
 					) {
 						Column(horizontalAlignment = Alignment.CenterHorizontally) {
 							Text(
-								text = "760",
+								text = scrollCountList.sum().toString(),
 								textAlign = TextAlign.Center,
 								fontSize = 30.sp,
 								fontFamily = fontMontserrat,
@@ -85,7 +85,7 @@ fun HomeScreen() {
 								style = descriptionStyle
 							)
 						}
-						CustomPieChart(data = listOf(1300, 500), pieChartSize = 180.dp)
+						CustomPieChart(data = scrollCountList, pieChartSize = 180.dp)
 					}
 
 					// pie chart indicator
@@ -105,7 +105,7 @@ fun HomeScreen() {
 									.background(blue, CircleShape)
 							)
 							Text("Instagram")
-							Text("700")
+							Text(scrollCountList[0].toString())
 						}
 
 						Row(
@@ -118,7 +118,7 @@ fun HomeScreen() {
 									.background(white, CircleShape)
 							)
 							Text("Youtube")
-							Text("200")
+							Text(scrollCountList[1].toString())
 						}
 					}
 
@@ -177,6 +177,7 @@ fun HomeScreen() {
 @Composable
 private fun HomeScreenPreview() {
 	ScrollBlockTheme {
-		HomeScreen()
+		val scrollCountList = listOf(300, 100)
+		HomeScreen(scrollCountList)
 	}
 }

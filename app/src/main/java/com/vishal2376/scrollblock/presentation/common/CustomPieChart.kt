@@ -21,7 +21,7 @@ import com.vishal2376.scrollblock.ui.theme.pieChartColors
 
 @Composable
 fun CustomPieChart(
-	data: List<Long>,
+	data: List<Int>,
 	arcWidth: Dp = 30.dp,
 	startAngle: Float = -180f,
 	pieChartSize: Dp = 200.dp,
@@ -74,6 +74,6 @@ fun CustomPieChart(
 @Preview
 @Composable
 fun CustomPieChartPreview() {
-	val time = listOf<Long>(10, 20)
+	val time = listOf<Int>(10, 20)
 	CustomPieChart(time)
 }
