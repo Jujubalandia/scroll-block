@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -29,18 +28,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppInfo
+import com.vishal2376.scrollblock.domain.model.AppUsage
 import com.vishal2376.scrollblock.presentation.common.CustomPieChart
 import com.vishal2376.scrollblock.presentation.common.descriptionStyle
 import com.vishal2376.scrollblock.presentation.common.fontMontserrat
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.home.components.AppInfoComponent
+import com.vishal2376.scrollblock.presentation.home.components.ScrollCountIndicatorComponent
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
-import com.vishal2376.scrollblock.ui.theme.white
+import com.vishal2376.scrollblock.ui.theme.pieChartColors
+import com.vishal2376.scrollblock.utils.getAppScrollCount
+import com.vishal2376.scrollblock.utils.instagramPackage
+import com.vishal2376.scrollblock.utils.youtubePackage
 
 @Composable
-fun HomeScreen(scrollCountList: List<Int>) {
+fun HomeScreen(allAppUsage: List<AppUsage>) {
+
+	val instagramScrollCount = getAppScrollCount(allAppUsage, instagramPackage)
+	val youtubeScrollCount = getAppScrollCount(allAppUsage, youtubePackage)
+
+	val scrollCountList = mapOf(
+		"Instagram" to instagramScrollCount,
+		"Youtube" to youtubeScrollCount
+	)
+
 	Scaffold { innerPadding ->
 		Column(
 			modifier = Modifier
@@ -74,18 +87,21 @@ fun HomeScreen(scrollCountList: List<Int>) {
 					) {
 						Column(horizontalAlignment = Alignment.CenterHorizontally) {
 							Text(
-								text = scrollCountList.sum().toString(),
+								text = scrollCountList.values.sum().toString(),
 								textAlign = TextAlign.Center,
 								fontSize = 30.sp,
 								fontFamily = fontMontserrat,
 							)
 							Text(
-								text = "scroll",
+								text = "scrolls",
 								textAlign = TextAlign.Center,
 								style = descriptionStyle
 							)
 						}
-						CustomPieChart(data = scrollCountList, pieChartSize = 180.dp)
+						CustomPieChart(
+							data = scrollCountList.values.toList(),
+							pieChartSize = 180.dp
+						)
 					}
 
 					// pie chart indicator
@@ -94,31 +110,13 @@ fun HomeScreen(scrollCountList: List<Int>) {
 							.fillMaxWidth(),
 						horizontalArrangement = Arrangement.SpaceEvenly
 					) {
-						// todo: refactor it into single composable
-						Row(
-							verticalAlignment = Alignment.CenterVertically,
-							horizontalArrangement = Arrangement.spacedBy(8.dp)
-						) {
-							Box(
-								modifier = Modifier
-									.size(16.dp)
-									.background(blue, CircleShape)
+						scrollCountList.forEach { (appName, scrollCount) ->
+							val color = pieChartColors[scrollCountList.keys.indexOf(appName)]
+							ScrollCountIndicatorComponent(
+								appName = appName,
+								scrollCount = scrollCount,
+								color = color
 							)
-							Text("Instagram")
-							Text(scrollCountList[0].toString())
-						}
-
-						Row(
-							verticalAlignment = Alignment.CenterVertically,
-							horizontalArrangement = Arrangement.spacedBy(8.dp)
-						) {
-							Box(
-								modifier = Modifier
-									.size(16.dp)
-									.background(white, CircleShape)
-							)
-							Text("Youtube")
-							Text(scrollCountList[1].toString())
 						}
 					}
 
@@ -158,8 +156,8 @@ fun HomeScreen(scrollCountList: List<Int>) {
 			) {
 				val supportedApps = listOf(
 					AppInfo(R.drawable.instagram, "Instagram", true),
-					AppInfo(R.drawable.youtube, "Youtube", false),
-					AppInfo(R.drawable.snapchat, "Snapchat", true),
+					AppInfo(R.drawable.youtube, "Youtube", true),
+					AppInfo(R.drawable.snapchat, "Snapchat", false),
 				)
 
 				supportedApps.forEach {
@@ -177,7 +175,11 @@ fun HomeScreen(scrollCountList: List<Int>) {
 @Composable
 private fun HomeScreenPreview() {
 	ScrollBlockTheme {
-		val scrollCountList = listOf(300, 100)
-		HomeScreen(scrollCountList)
+		//create a fake appUsageList
+		val appUsageList = listOf(
+			AppUsage(packageName = "com.instagram.android", scrollCount = 100),
+			AppUsage(packageName = "com.youtube.android", scrollCount = 100),
+		)
+		HomeScreen(appUsageList)
 	}
 }

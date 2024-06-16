@@ -10,7 +10,6 @@ import com.vishal2376.scrollblock.presentation.home.HomeScreen
 import com.vishal2376.scrollblock.presentation.onboarding.PermissionScreen
 import com.vishal2376.scrollblock.presentation.onboarding.WelcomeScreen
 import com.vishal2376.scrollblock.presentation.viewmodels.MainViewModel
-import com.vishal2376.scrollblock.utils.SupportedApps
 
 
 @Composable
@@ -19,23 +18,12 @@ fun NavGraph(viewModel: MainViewModel) {
 
 	val allAppUsage by viewModel.appUsageList.collectAsState(initial = emptyList())
 
-	val instagramScrollCount = allAppUsage
-		.filter { it.packageName == SupportedApps.Instagram.packageName }
-		.sumOf { it.scrollCount }
-
-	val youtubeScrollCount = allAppUsage
-		.filter { it.packageName == SupportedApps.Youtube.packageName }
-		.sumOf { it.scrollCount }
-
-	val scrollCountList = listOf(instagramScrollCount, youtubeScrollCount + 60)
-
-
 	NavHost(
 		navController = navController,
 		startDestination = Screen.HomeScreen.name
 	) {
 		composable(Screen.HomeScreen.name) {
-			HomeScreen(scrollCountList)
+			HomeScreen(allAppUsage)
 		}
 
 		composable(Screen.WelcomeScreen.name) {
