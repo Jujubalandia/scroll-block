@@ -18,9 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,12 +42,18 @@ import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.pieChartColors
+import com.vishal2376.scrollblock.utils.SettingsStore
 import com.vishal2376.scrollblock.utils.getAppScrollCount
 import com.vishal2376.scrollblock.utils.instagramPackage
 import com.vishal2376.scrollblock.utils.youtubePackage
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(allAppUsage: List<AppUsage>) {
+
+	val context = LocalContext.current
+	val scope = rememberCoroutineScope()
+	val store = SettingsStore(context)
 
 	val instagramScrollCount = getAppScrollCount(allAppUsage, instagramPackage)
 	val youtubeScrollCount = getAppScrollCount(allAppUsage, youtubePackage)
@@ -144,7 +153,7 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 			}
 			Text(
 				modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp),
-				text = "Supported Apps",
+				text = "Block apps",
 				style = h2style,
 				fontWeight = FontWeight.Bold
 			)
@@ -154,15 +163,25 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 					.padding(horizontal = 16.dp),
 				verticalArrangement = Arrangement.spacedBy(16.dp)
 			) {
+				val instagramKey = store.instagramKey.collectAsState(initial = true)
+				val youtubeKey = store.youtubeKey.collectAsState(initial = true)
+				val snapchatKey = store.snapchatKey.collectAsState(initial = true)
+
 				val supportedApps = listOf(
-					AppInfo(R.drawable.instagram, "Instagram", true),
-					AppInfo(R.drawable.youtube, "Youtube", true),
-					AppInfo(R.drawable.snapchat, "Snapchat", false),
+					AppInfo(R.drawable.instagram, "Instagram Reels", instagramKey.value),
+					AppInfo(R.drawable.youtube, "Youtube Shorts", youtubeKey.value),
+					AppInfo(R.drawable.snapchat, "Snapchat Spotlight", snapchatKey.value),
 				)
 
 				supportedApps.forEach {
 					AppInfoComponent(app = it, index = supportedApps.indexOf(it)) {
-						// todo: implement function to toggle status
+						scope.launch {
+							when (it.name) {
+								"Instagram Reels" -> store.setInstagramKey(!instagramKey.value)
+								"Youtube Shorts" -> store.setYoutubeKey(!youtubeKey.value)
+								"Snapchat Spotlight" -> store.setSnapchatKey(!snapchatKey.value)
+							}
+						}
 					}
 
 				}
