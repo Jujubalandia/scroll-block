@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.vishal2376.scrollblock.domain.model.AppUsage
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppUsageDao {
@@ -12,8 +13,8 @@ interface AppUsageDao {
 	suspend fun insertAppUsage(appUsage: AppUsage)
 
 	@Query("SELECT * FROM AppUsage WHERE packageName = :appPackageName")
-	suspend fun getAppUsageByPackageName(appPackageName: String): List<AppUsage>
+	fun getAppUsageByPackageName(appPackageName: String): Flow<List<AppUsage>>
 
 	@Query("SELECT * FROM AppUsage")
-	suspend fun getAllAppUsage(): List<AppUsage>
+	fun getAllAppUsage(): Flow<List<AppUsage>>
 }
