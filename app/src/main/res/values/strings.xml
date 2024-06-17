@@ -2,4 +2,8 @@
     <string name="app_name">Scroll Block</string>
     <string name="accessibility_service_description">Stop you from scrolling</string>
     <string name="service_desc">This allows us to block scroll in real-time, ensuring you stay focused</string>
+    <string name="dialog_text">Sorry, An unexpected error occurred.\n\nDo you want to send a crash report to the developer?</string>
+    <string name="dialog_title">Crash Report</string>
+    <string name="dialog_positive">Send</string>
+    <string name="dialog_negative">Cancel</string>
 </resources>
