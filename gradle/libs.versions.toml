@@ -1,4 +1,6 @@
 [versions]
+acraMail = "5.11.3"
+acraDialog = "5.11.3"
 agp = "8.4.0"
 datastorePreferences = "1.1.1"
 hiltAndroid = "2.49"
@@ -15,6 +17,8 @@ navigationCompose = "2.7.7"
 roomRuntime = "2.6.1"
 
 [libraries]
+acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acraDialog" }
+acra-mail = { module = "ch.acra:acra-mail", version.ref = "acraMail" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }

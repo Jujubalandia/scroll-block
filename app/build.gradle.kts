@@ -105,6 +105,10 @@ dependencies {
 	//data store
 	implementation(libs.androidx.datastore.preferences)
 
+	//acra - crash reports
+	implementation(libs.acra.mail)
+	implementation(libs.acra.dialog)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
