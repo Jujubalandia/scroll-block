@@ -78,6 +78,7 @@ To get started with Scroll Block, simply download the app from the above links o
    ```kotlin
     INSTAGRAM_ID="reel_id_here"
     YOUTUBE_ID="shorts_id_here"
+    LINKEDIN_ID="video_id_here"
     SNAPCHAT_ID="spotlight_id_here"
    ```
 5. Build and run the app
