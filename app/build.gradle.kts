@@ -30,10 +30,12 @@ android {
 
 		val instagramId = properties.getProperty("INSTAGRAM_ID") ?: ""
 		val youtubeId = properties.getProperty("YOUTUBE_ID") ?: ""
+		val linkedinId = properties.getProperty("LINKEDIN_ID") ?: ""
 		val snapchatId = properties.getProperty("SNAPCHAT_ID") ?: ""
 
 		buildConfigField("String", "INSTAGRAM_ID", instagramId)
 		buildConfigField("String", "YOUTUBE_ID", youtubeId)
+		buildConfigField("String", "LINKEDIN_ID", linkedinId)
 		buildConfigField("String", "SNAPCHAT_ID", snapchatId)
 	}
 
@@ -44,6 +46,7 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
+			signingConfig = signingConfigs.getByName("debug")
 		}
 
 		debug {
