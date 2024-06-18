@@ -18,6 +18,7 @@ class SettingsStore(private val context: Context) {
 		private val INSTAGRAM_KEY = booleanPreferencesKey("instagram_key")
 		private val YOUTUBE_KEY = booleanPreferencesKey("youtube_key")
 		private val SNAPCHAT_KEY = booleanPreferencesKey("snapchat_key")
+		private val LINKEDIN_KEY = booleanPreferencesKey("linkedin_key")
 	}
 
 	val instagramKey: Flow<Boolean> = context.dataStore.data.map { preferences ->
@@ -32,6 +33,10 @@ class SettingsStore(private val context: Context) {
 		preferences[SNAPCHAT_KEY] ?: true
 	}
 
+	val linkedinKey: Flow<Boolean> = context.dataStore.data.map { preferences ->
+		preferences[LINKEDIN_KEY] ?: true
+	}
+
 	suspend fun setInstagramKey(isEnabled: Boolean) {
 		context.dataStore.edit { preferences ->
 			preferences[INSTAGRAM_KEY] = isEnabled
@@ -41,6 +46,12 @@ class SettingsStore(private val context: Context) {
 	suspend fun setYoutubeKey(isEnabled: Boolean) {
 		context.dataStore.edit { preferences ->
 			preferences[YOUTUBE_KEY] = isEnabled
+		}
+	}
+
+	suspend fun setLinkedinKey(isEnabled: Boolean) {
+		context.dataStore.edit { preferences ->
+			preferences[LINKEDIN_KEY] = isEnabled
 		}
 	}
 

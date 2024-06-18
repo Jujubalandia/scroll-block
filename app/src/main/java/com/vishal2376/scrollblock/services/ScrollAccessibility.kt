@@ -32,11 +32,13 @@ class ScrollAccessibility : AccessibilityService() {
 	private val store = SettingsStore(this)
 	private var isInstagramDisabled = true
 	private var isYoutubeDisabled = true
+	private var isLinkedinDisabled = true
 	private var isSnapchatDisabled = true
 
 	private var appStatus = mapOf(
 		SupportedApps.Instagram to isInstagramDisabled,
 		SupportedApps.Youtube to isYoutubeDisabled,
+		SupportedApps.Linkedin to isLinkedinDisabled,
 		SupportedApps.Snapchat to isSnapchatDisabled
 	)
 
@@ -55,6 +57,7 @@ class ScrollAccessibility : AccessibilityService() {
 	private val supportedApps = listOf(
 		SupportedApps.Instagram,
 		SupportedApps.Youtube,
+		SupportedApps.Linkedin,
 		SupportedApps.YoutubeRevanced,
 		SupportedApps.YoutubeRevancedExtended,
 		SupportedApps.Snapchat
@@ -76,6 +79,7 @@ class ScrollAccessibility : AccessibilityService() {
 					appStatus = mapOf(
 						SupportedApps.Instagram to store.instagramKey.first(),
 						SupportedApps.Youtube to store.youtubeKey.first(),
+						SupportedApps.Linkedin to store.linkedinKey.first(),
 						SupportedApps.Snapchat to store.snapchatKey.first()
 					)
 				}
@@ -115,9 +119,7 @@ class ScrollAccessibility : AccessibilityService() {
 						} else {
 							performGlobalAction(GLOBAL_ACTION_BACK)
 							Toast.makeText(
-								this@ScrollAccessibility,
-								"Feature Blocked",
-								Toast.LENGTH_SHORT
+								this@ScrollAccessibility, "Feature Blocked", Toast.LENGTH_SHORT
 							).show()
 						}
 					}

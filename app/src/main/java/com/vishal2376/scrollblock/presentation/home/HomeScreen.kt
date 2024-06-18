@@ -59,8 +59,7 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 	val youtubeScrollCount = getAppScrollCount(allAppUsage, youtubePackage)
 
 	val scrollCountList = mapOf(
-		"Instagram" to instagramScrollCount,
-		"Youtube" to youtubeScrollCount
+		"Instagram" to instagramScrollCount, "Youtube" to youtubeScrollCount
 	)
 
 	Scaffold { innerPadding ->
@@ -108,23 +107,19 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 							)
 						}
 						CustomPieChart(
-							data = scrollCountList.values.toList(),
-							pieChartSize = 180.dp
+							data = scrollCountList.values.toList(), pieChartSize = 180.dp
 						)
 					}
 
 					// pie chart indicator
 					Row(
-						modifier = Modifier
-							.fillMaxWidth(),
+						modifier = Modifier.fillMaxWidth(),
 						horizontalArrangement = Arrangement.SpaceEvenly
 					) {
 						scrollCountList.forEach { (appName, scrollCount) ->
 							val color = pieChartColors[scrollCountList.keys.indexOf(appName)]
 							ScrollCountIndicatorComponent(
-								appName = appName,
-								scrollCount = scrollCount,
-								color = color
+								appName = appName, scrollCount = scrollCount, color = color
 							)
 						}
 					}
@@ -132,14 +127,10 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 				}
 
 				Button(
-					modifier = Modifier
-						.align(Alignment.BottomCenter),
-					onClick = {
+					modifier = Modifier.align(Alignment.BottomCenter), onClick = {
 						// todo: implement start/stop service
-					},
-					colors = ButtonDefaults.buttonColors(
-						containerColor = blue,
-						contentColor = MaterialTheme.colorScheme.onPrimary
+					}, colors = ButtonDefaults.buttonColors(
+						containerColor = blue, contentColor = MaterialTheme.colorScheme.onPrimary
 					)
 				) {
 					Text(
@@ -165,11 +156,13 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 			) {
 				val instagramKey = store.instagramKey.collectAsState(initial = true)
 				val youtubeKey = store.youtubeKey.collectAsState(initial = true)
+				val linkedinKey = store.linkedinKey.collectAsState(initial = true)
 				val snapchatKey = store.snapchatKey.collectAsState(initial = true)
 
 				val supportedApps = listOf(
 					AppInfo(R.drawable.instagram, "Instagram Reels", instagramKey.value),
 					AppInfo(R.drawable.youtube, "Youtube Shorts", youtubeKey.value),
+					AppInfo(R.drawable.linkedin, "Linkedin Video", linkedinKey.value),
 					AppInfo(R.drawable.snapchat, "Snapchat Spotlight", snapchatKey.value),
 				)
 
@@ -179,6 +172,7 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 							when (it.name) {
 								"Instagram Reels" -> store.setInstagramKey(!instagramKey.value)
 								"Youtube Shorts" -> store.setYoutubeKey(!youtubeKey.value)
+								"Linkedin Video" -> store.setLinkedinKey(!linkedinKey.value)
 								"Snapchat Spotlight" -> store.setSnapchatKey(!snapchatKey.value)
 							}
 						}
