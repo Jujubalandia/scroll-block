@@ -44,13 +44,20 @@ Scroll Block is a free app that helps you stop scrolling addictive short videos,
 ## 🚀 Features
 
 - 🚫 Block Addictive Content
-- ⚙️ Customizable Settings
-- 🔒 Focus Mode
+  
+- ⚙️ Customize Blocking Apps
+  
 - 📊 Usage Analytics
+  
 - 💡 User-Friendly Interface
+  
+- 🔒 Supported Apps - Instagram, Youtube, Snapchat
 
 
 ## Screenshots ([All Designs(Figma)](https://www.figma.com/design/VMA90BJ4TRXoZU2H3LW4Me/Scroll-Block-App-UI?node-id=0-1&t=nFFmmtE2DfpgOCzh-1))
+
+![image](https://github.com/vishal2376/scroll-block/assets/38159691/be3d2968-add2-4a2c-959d-dfe014a3b57e)
+
 
 ## Getting Started
 
@@ -66,7 +73,18 @@ To get started with Scroll Block, simply download the app from the above links o
 1. Clone the repository
 ``` git clone https://github.com/vishal2376/scroll-block.git ```
 2. Open the project in Android Studio
-3. Build and run the app
+3. Add Resource IDs in `local.properties` file
+
+   ```kotlin
+    INSTAGRAM_ID="reel_id_here"
+    YOUTUBE_ID="shorts_id_here"
+    SNAPCHAT_ID="spotlight_id_here"
+   ```
+5. Build and run the app
+
+
+> ⚠️ NOTE : I am not disclosing Resource ID of any app. You can find these IDs by yourself using [Developer Assistant](https://play.google.com/store/apps/details?id=com.appsisle.developerassistant) app.
+
 
 ## Contributing
 
