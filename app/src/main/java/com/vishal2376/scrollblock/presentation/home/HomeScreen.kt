@@ -45,6 +45,7 @@ import com.vishal2376.scrollblock.ui.theme.pieChartColors
 import com.vishal2376.scrollblock.utils.SettingsStore
 import com.vishal2376.scrollblock.utils.getAppScrollCount
 import com.vishal2376.scrollblock.utils.instagramPackage
+import com.vishal2376.scrollblock.utils.linkedinPackage
 import com.vishal2376.scrollblock.utils.youtubePackage
 import kotlinx.coroutines.launch
 
@@ -56,10 +57,10 @@ fun HomeScreen(allAppUsage: List<AppUsage>) {
 	val store = SettingsStore(context)
 
 	val instagramScrollCount = getAppScrollCount(allAppUsage, instagramPackage)
-	val youtubeScrollCount = getAppScrollCount(allAppUsage, youtubePackage)
+	val linkedinScrollCount = getAppScrollCount(allAppUsage, linkedinPackage)
 
 	val scrollCountList = mapOf(
-		"Instagram" to instagramScrollCount, "Youtube" to youtubeScrollCount
+		"Instagram" to instagramScrollCount, "Linkedin" to linkedinScrollCount
 	)
 
 	Scaffold { innerPadding ->

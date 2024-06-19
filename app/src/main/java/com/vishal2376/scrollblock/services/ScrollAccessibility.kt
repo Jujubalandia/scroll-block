@@ -38,6 +38,8 @@ class ScrollAccessibility : AccessibilityService() {
 	private var appStatus = mapOf(
 		SupportedApps.Instagram to isInstagramDisabled,
 		SupportedApps.Youtube to isYoutubeDisabled,
+		SupportedApps.YoutubeRevanced to isYoutubeDisabled,
+		SupportedApps.YoutubeRevancedExtended to isYoutubeDisabled,
 		SupportedApps.Linkedin to isLinkedinDisabled,
 		SupportedApps.Snapchat to isSnapchatDisabled
 	)
@@ -79,12 +81,14 @@ class ScrollAccessibility : AccessibilityService() {
 					appStatus = mapOf(
 						SupportedApps.Instagram to store.instagramKey.first(),
 						SupportedApps.Youtube to store.youtubeKey.first(),
+						SupportedApps.YoutubeRevanced to store.youtubeKey.first(),
+						SupportedApps.YoutubeRevancedExtended to store.youtubeKey.first(),
 						SupportedApps.Linkedin to store.linkedinKey.first(),
 						SupportedApps.Snapchat to store.snapchatKey.first()
 					)
 				}
 
-				if (appScrollCount != 0 && appPackageName.isNotEmpty()) {
+				if ((appScrollCount != 0 || appTimeSpent != 0) && appPackageName.isNotEmpty()) {
 					// Calculate App Usage
 					endTime = LocalTime.now().toSecondOfDay()
 					appTimeSpent = max(0, endTime - startTime)
