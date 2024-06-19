@@ -46,14 +46,14 @@ object AppModule {
 	}
 
 	@Provides
-    @Singleton
-    fun provideContext(@ApplicationContext context: Context): Context {
-        return context
-    }
+	@Singleton
+	fun provideContext(@ApplicationContext context: Context): Context {
+		return context
+	}
 
-    @Provides
-    @Singleton
-    fun provideSettingsStore(context: Context): SettingsStore {
-        return SettingsStore(context)
-    }
+	@Provides
+	@Singleton
+	fun provideSettingsStore(context: Context): SettingsStore {
+		return SettingsStore(context)
+	}
 }

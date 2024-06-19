@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import javax.inject.Inject
@@ -30,7 +29,7 @@ class ScrollAccessibility : AccessibilityService() {
 	lateinit var summaryDao: SummaryDao
 
 	@Inject
-    lateinit var store: SettingsStore
+	lateinit var store: SettingsStore
 
 	private var isInstagramDisabled = true
 	private var isYoutubeDisabled = true
