@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -107,8 +109,7 @@ fun HomeScreen(
 					)
 				}
 			})
-		}
-		) { innerPadding ->
+		}) { innerPadding ->
 			Column(
 				modifier = Modifier
 					.fillMaxSize()
@@ -119,14 +120,14 @@ fun HomeScreen(
 				Box(
 					modifier = Modifier
 						.fillMaxWidth()
-						.height(400.dp)
+						.height(350.dp)
 				) {
 
 					Column(
 						Modifier
 							.fillMaxWidth()
-							.height(380.dp)
-							.padding(top = 24.dp)
+							.verticalScroll(rememberScrollState())
+							.height(330.dp)
 							.clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
 							.background(blackGradient),
 						horizontalAlignment = Alignment.CenterHorizontally,
@@ -153,7 +154,7 @@ fun HomeScreen(
 								)
 							}
 							CustomPieChart(
-								data = scrollCountList.values.toList(), pieChartSize = 180.dp
+								data = scrollCountList.values.toList(), pieChartSize = 170.dp
 							)
 						}
 
