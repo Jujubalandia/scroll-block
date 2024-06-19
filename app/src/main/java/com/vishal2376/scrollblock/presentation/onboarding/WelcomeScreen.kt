@@ -27,17 +27,18 @@ import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.presentation.common.descriptionStyle
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.titleStyle
+import com.vishal2376.scrollblock.presentation.navigation.Screen
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.orange
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(onNavigate: (String) -> Unit) {
 	Scaffold(floatingActionButton = {
 		FloatingActionButton(
 			onClick = {
-				// todo: navigate to permission screen
+				onNavigate(Screen.PermissionScreen.name)
 			},
 			shape = CircleShape,
 			containerColor = blue,
@@ -80,6 +81,6 @@ fun WelcomeScreen() {
 @Composable
 private fun WelcomeScreenPreview() {
 	ScrollBlockTheme {
-		WelcomeScreen()
+		WelcomeScreen({})
 	}
 }

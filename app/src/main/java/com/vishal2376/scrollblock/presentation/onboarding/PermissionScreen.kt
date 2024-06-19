@@ -24,17 +24,18 @@ import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.presentation.common.h1style
 import com.vishal2376.scrollblock.presentation.common.smallDescriptionStyle
 import com.vishal2376.scrollblock.presentation.common.titleStyle
+import com.vishal2376.scrollblock.presentation.navigation.Screen
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.white
 
 @Composable
-fun PermissionScreen() {
+fun PermissionScreen(onNavigate: (String) -> Unit) {
 	Scaffold(floatingActionButton = {
 		FloatingActionButton(
 			onClick = {
-				// todo: navigate to home screen
+				onNavigate(Screen.HomeScreen.name)
 			},
 			shape = CircleShape,
 			containerColor = blue,
@@ -48,7 +49,7 @@ fun PermissionScreen() {
 				.fillMaxSize()
 				.padding(innerPadding)
 				.background(blackGradient),
-			verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+			verticalArrangement = Arrangement.spacedBy(16.dp)
 		) {
 			Text(text = "Enable Permissions", style = titleStyle, color = white)
 			Text(text = "Accessibility Service", style = h1style, color = blue)
@@ -61,6 +62,6 @@ fun PermissionScreen() {
 @Composable
 private fun PermissionScreenPreview() {
 	ScrollBlockTheme {
-		PermissionScreen()
+		PermissionScreen({})
 	}
 }

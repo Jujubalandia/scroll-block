@@ -19,22 +19,24 @@ fun NavGraph(viewModel: MainViewModel) {
 	val allAppUsage by viewModel.appUsageList.collectAsState(initial = emptyList())
 
 	NavHost(
-		navController = navController, startDestination = Screen.HomeScreen.name
+		navController = navController, startDestination = Screen.WelcomeScreen.name
 	) {
 		composable(Screen.HomeScreen.name) {
-			HomeScreen(allAppUsage,
-				onMainEvent = viewModel::onEvent,
-				onNavigate = { route ->
-					navController.navigate(route = route)
-				})
+			HomeScreen(allAppUsage, onMainEvent = viewModel::onEvent, onNavigate = { route ->
+				navController.navigate(route = route)
+			})
 		}
 
 		composable(Screen.WelcomeScreen.name) {
-			WelcomeScreen()
+			WelcomeScreen(onNavigate = { route ->
+				navController.navigate(route = route)
+			})
 		}
 
 		composable(Screen.PermissionScreen.name) {
-			PermissionScreen()
+			PermissionScreen(onNavigate = { route ->
+				navController.navigate(route = route)
+			})
 		}
 	}
 }
