@@ -8,9 +8,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 
-class SettingsStore(private val context: Context) {
+class SettingsStore @Inject constructor(private val context: Context) {
 
 	companion object {
 		val Context.dataStore: DataStore<Preferences> by preferencesDataStore("scrollblock-settings")

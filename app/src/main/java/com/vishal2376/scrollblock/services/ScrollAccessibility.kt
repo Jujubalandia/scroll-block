@@ -29,7 +29,9 @@ class ScrollAccessibility : AccessibilityService() {
 	@Inject
 	lateinit var summaryDao: SummaryDao
 
-	private val store = SettingsStore(this)
+	@Inject
+    lateinit var store: SettingsStore
+
 	private var isInstagramDisabled = true
 	private var isYoutubeDisabled = true
 	private var isLinkedinDisabled = true

@@ -6,6 +6,7 @@ import com.vishal2376.scrollblock.data.local.AppDatabase
 import com.vishal2376.scrollblock.data.local.AppUsageDao
 import com.vishal2376.scrollblock.data.local.MainRepository
 import com.vishal2376.scrollblock.data.local.SummaryDao
+import com.vishal2376.scrollblock.utils.SettingsStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,4 +44,16 @@ object AppModule {
 	fun provideMainRepository(appUsageDao: AppUsageDao, summaryDao: SummaryDao): MainRepository {
 		return MainRepository(appUsageDao, summaryDao)
 	}
+
+	@Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsStore(context: Context): SettingsStore {
+        return SettingsStore(context)
+    }
 }
