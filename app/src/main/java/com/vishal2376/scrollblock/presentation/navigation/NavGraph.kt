@@ -29,13 +29,21 @@ fun NavGraph(viewModel: MainViewModel) {
 
 		composable(Screen.WelcomeScreen.name) {
 			WelcomeScreen(onNavigate = { route ->
-				navController.navigate(route = route)
+				navController.navigate(route = route) {
+					popUpTo(Screen.WelcomeScreen.name){
+						inclusive = true
+					}
+				}
 			})
 		}
 
 		composable(Screen.PermissionScreen.name) {
 			PermissionScreen(onNavigate = { route ->
-				navController.navigate(route = route)
+				navController.navigate(route = route) {
+					popUpTo(Screen.PermissionScreen.name){
+						inclusive = true
+					}
+				}
 			})
 		}
 	}
