@@ -95,6 +95,9 @@ dependencies {
 	//navigation
 	implementation(libs.androidx.navigation.compose)
 
+	//material icons extended
+	implementation(libs.androidx.material.icons.extended)
+
 	//room
 	implementation(libs.androidx.room.runtime)
 	annotationProcessor(libs.androidx.room.compiler)
