@@ -29,6 +29,7 @@ import com.vishal2376.scrollblock.presentation.common.descriptionStyle
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.titleStyle
 import com.vishal2376.scrollblock.presentation.navigation.Screen
+import com.vishal2376.scrollblock.services.ScrollAccessibility
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
