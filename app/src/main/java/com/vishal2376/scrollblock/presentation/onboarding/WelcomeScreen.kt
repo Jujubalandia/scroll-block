@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,55 +33,62 @@ import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.orange
+import com.vishal2376.scrollblock.utils.isAccessibilityServiceEnabled
 
 @Composable
 fun WelcomeScreen(onNavigate: (String) -> Unit) {
-	Scaffold(floatingActionButton = {
-		FloatingActionButton(
-			onClick = {
-				onNavigate(Screen.PermissionScreen.name)
-			},
-			shape = CircleShape,
-			containerColor = blue,
-			contentColor = MaterialTheme.colorScheme.onPrimary
-		) {
-			Icon(imageVector = Icons.Default.ArrowForward, contentDescription = null)
-		}
-	}) { innerPadding ->
-		Column(
-			Modifier
-				.fillMaxSize()
-				.padding(innerPadding)
-				.background(blackGradient),
-			horizontalAlignment = Alignment.CenterHorizontally,
-			verticalArrangement = Arrangement.Center
-		) {
-			Text(text = "Want to reduce", style = descriptionStyle)
-			Spacer(modifier = Modifier.height(8.dp))
-			Text(text = "Scroll Addiction ?", style = titleStyle, color = orange)
+    val context = LocalContext.current
 
-			Spacer(modifier = Modifier.height(40.dp))
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(
+            onClick = {
+                if (isAccessibilityServiceEnabled(context)) {
+                    onNavigate(Screen.HomeScreen.name)
+                } else {
+                    onNavigate(Screen.PermissionScreen.name)
+                }
+            },
+            shape = CircleShape,
+            containerColor = blue,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Icon(imageVector = Icons.Default.ArrowForward, contentDescription = null)
+        }
+    }) { innerPadding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(blackGradient),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Want to reduce", style = descriptionStyle)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "Scroll Addiction ?", style = titleStyle, color = orange)
 
-			Image(
-				modifier = Modifier.size(300.dp),
-				painter = painterResource(id = R.drawable.onboarding),
-				contentDescription = null
-			)
-			Spacer(modifier = Modifier.height(40.dp))
-			Text(text = "Welcome to", style = h2style)
-			Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-			Text(text = "ScrollBlock", style = titleStyle, color = blue)
-			Spacer(modifier = Modifier.height(8.dp))
-			Text(text = "Regain Control  Boost Productivity", style = descriptionStyle)
-		}
-	}
+            Image(
+                modifier = Modifier.size(300.dp),
+                painter = painterResource(id = R.drawable.onboarding),
+                contentDescription = null
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            Text(text = "Welcome to", style = h2style)
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(text = "ScrollBlock", style = titleStyle, color = blue)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "Regain Control  Boost Productivity", style = descriptionStyle)
+        }
+    }
 }
 
 @Preview
 @Composable
 private fun WelcomeScreenPreview() {
-	ScrollBlockTheme {
-		WelcomeScreen({})
-	}
+    ScrollBlockTheme {
+        WelcomeScreen({})
+    }
 }
