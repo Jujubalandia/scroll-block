@@ -1,6 +1,7 @@
 package com.vishal2376.scrollblock.presentation.onboarding
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,14 +49,19 @@ import com.vishal2376.scrollblock.presentation.navigation.Screen
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
+import com.vishal2376.scrollblock.ui.theme.gray
 import com.vishal2376.scrollblock.ui.theme.red
 import com.vishal2376.scrollblock.ui.theme.white
+import com.vishal2376.scrollblock.utils.isAccessibilityServiceEnabled
 import com.vishal2376.scrollblock.utils.openAccessibilitySettings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermissionScreen(onNavigate: (String) -> Unit) {
 	val context = LocalContext.current
+	val isServiceEnabled by remember {
+		mutableStateOf(isAccessibilityServiceEnabled(context))
+	}
 
 	Scaffold(topBar = {
 		TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -70,10 +79,15 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 	}, floatingActionButton = {
 		FloatingActionButton(
 			onClick = {
-				onNavigate(Screen.HomeScreen.name)
+				if (isServiceEnabled) {
+					onNavigate(Screen.HomeScreen.name)
+				} else {
+					Toast.makeText(context, "Enable Accessibility Service", Toast.LENGTH_SHORT)
+						.show()
+				}
 			},
 			shape = CircleShape,
-			containerColor = blue,
+			containerColor = if (isServiceEnabled) blue else gray,
 			contentColor = MaterialTheme.colorScheme.onPrimary
 		) {
 			Icon(
@@ -122,7 +136,7 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 			) {
 				Text(text = "Go to Accessibility Settings")
 			}
-			Column() {
+			Column {
 				Text(
 					text = "2. Optional Settings",
 					style = headlineStyle,
@@ -135,7 +149,7 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 					style = smallDescriptionStyle,
 					fontStyle = FontStyle.Italic
 				)
-
+				Spacer(modifier = Modifier.height(8.dp))
 				Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
 					optionalSettings.forEach {
 						Spacer(modifier = Modifier.height(8.dp))
