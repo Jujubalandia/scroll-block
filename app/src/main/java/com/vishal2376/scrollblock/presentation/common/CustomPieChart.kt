@@ -25,20 +25,21 @@ fun CustomPieChart(
 	arcWidth: Dp = 30.dp,
 	startAngle: Float = -180f,
 	pieChartSize: Dp = 200.dp,
-	animDuration: Int = 1000
+	animDuration: Int = 1000,
+	gapAngle: Float = 25f
 ) {
 	// calculate each arc value
 	val totalSum = data.sum()
 	val arcValues = mutableListOf<Float>()
 	data.forEachIndexed { index, value ->
-		val arc = value.toFloat() / totalSum.toFloat() * 360f
+		val arc = value.toFloat() / totalSum.toFloat() * 360f - gapAngle
 		arcValues.add(index, arc)
 	}
 
 	var newStartAngle = startAngle
 
 	// animations
-	val animationProgress = remember { Animatable(0f) }
+	val animationProgress = remember { Animatable(1f) }
 	LaunchedEffect(Unit) {
 		animationProgress.animateTo(1f, animationSpec = tween(animDuration))
 	}
@@ -64,11 +65,10 @@ fun CustomPieChart(
 					sweepAngle = arcValue * animationProgress.value,
 					style = Stroke(width = arcWidth.toPx(), cap = StrokeCap.Round)
 				)
-				newStartAngle += arcValue
+				newStartAngle += arcValue + gapAngle
 			}
 		}
 	}
-
 }
 
 @Preview
