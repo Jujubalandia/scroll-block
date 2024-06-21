@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppInfo
-import com.vishal2376.scrollblock.presentation.common.h3style
+import com.vishal2376.scrollblock.presentation.common.h4style
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.white
@@ -71,12 +71,12 @@ fun AppInfoComponent(
 
 			Image(
 				painter = painterResource(id = app.icon), contentDescription = null,
-				modifier = Modifier.size(40.dp)
+				modifier = Modifier.size(42.dp).clip(RoundedCornerShape(8.dp))
 			)
 			Text(
 				modifier = Modifier.weight(1f),
 				text = app.name,
-				style = h3style,
+				style = h4style,
 				color = MaterialTheme.colorScheme.onPrimary
 			)
 			Switch(modifier = Modifier.scale(0.9f),

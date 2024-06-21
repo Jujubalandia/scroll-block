@@ -30,7 +30,11 @@ val h2style = TextStyle(
 )
 
 val h3style = TextStyle(
-	fontSize = 18.sp, fontFamily = fontRoboto
+	fontSize = 18.sp, fontFamily = fontMontserrat
+)
+
+val h4style = TextStyle(
+	fontSize = 16.sp, fontFamily = fontPoppins
 )
 
 val descriptionStyle = TextStyle(
