@@ -29,7 +29,7 @@ fun NavGraph(viewModel: MainViewModel) {
 	val startRoute = if (isServiceEnabled) {
 		Screen.HomeScreen.name
 	} else {
-		Screen.PermissionScreen.name
+		Screen.WelcomeScreen.name
 	}
 
 	NavHost(

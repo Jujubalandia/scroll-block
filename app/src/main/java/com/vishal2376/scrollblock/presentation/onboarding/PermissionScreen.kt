@@ -27,15 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +45,6 @@ import com.vishal2376.scrollblock.presentation.navigation.Screen
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
-import com.vishal2376.scrollblock.ui.theme.gray
 import com.vishal2376.scrollblock.ui.theme.red
 import com.vishal2376.scrollblock.ui.theme.white
 import com.vishal2376.scrollblock.utils.isAccessibilityServiceEnabled
@@ -59,9 +54,6 @@ import com.vishal2376.scrollblock.utils.openAccessibilitySettings
 @Composable
 fun PermissionScreen(onNavigate: (String) -> Unit) {
 	val context = LocalContext.current
-	val isServiceEnabled by remember {
-		mutableStateOf(isAccessibilityServiceEnabled(context))
-	}
 
 	Scaffold(topBar = {
 		TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -79,7 +71,7 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 	}, floatingActionButton = {
 		FloatingActionButton(
 			onClick = {
-				if (isServiceEnabled) {
+				if (isAccessibilityServiceEnabled(context)) {
 					onNavigate(Screen.HomeScreen.name)
 				} else {
 					Toast.makeText(context, "Enable Accessibility Service", Toast.LENGTH_SHORT)
@@ -87,7 +79,7 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 				}
 			},
 			shape = CircleShape,
-			containerColor = if (isServiceEnabled) blue else gray,
+			containerColor = blue,
 			contentColor = MaterialTheme.colorScheme.onPrimary
 		) {
 			Icon(
@@ -146,8 +138,7 @@ fun PermissionScreen(onNavigate: (String) -> Unit) {
 				Text(
 					text = "If you skip below steps, you might need to enable permissions manually each day",
 					color = red,
-					style = smallDescriptionStyle,
-					fontStyle = FontStyle.Italic
+					style = smallDescriptionStyle
 				)
 				Spacer(modifier = Modifier.height(8.dp))
 				Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
