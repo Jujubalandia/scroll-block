@@ -68,18 +68,18 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 		}
 
 		Divider(
-			modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-			color = MaterialTheme.colorScheme.secondary
+			modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
+			color = MaterialTheme.colorScheme.secondary,
+			thickness = 2.dp
 		)
 
 		Column {
-
 			NavDrawerItem.entries.forEach {
 				NavDrawerItemUI(icon = it.icon, label = stringResource(id = it.stringId)) {
 					onMainEvent(MainEvent.OnClickNavDrawerItem(context, it))
 				}
+				Spacer(modifier = Modifier.height(8.dp))
 			}
-			Spacer(modifier = Modifier.height(16.dp))
 		}
 	}
 
@@ -99,7 +99,12 @@ fun NavDrawerItemUI(icon: ImageVector, label: String, onClick: () -> Unit) {
 			contentDescription = null,
 			tint = MaterialTheme.colorScheme.onPrimary
 		)
-		Text(text = label, style = h2style, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimary)
+		Text(
+			text = label,
+			style = h2style,
+			fontWeight = FontWeight.Bold,
+			color = MaterialTheme.colorScheme.onPrimary
+		)
 	}
 }
 
