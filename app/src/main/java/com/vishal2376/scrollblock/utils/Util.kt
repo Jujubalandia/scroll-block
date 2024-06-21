@@ -10,36 +10,51 @@ val instagramPackage = listOf(SupportedApps.Instagram.packageName)
 val linkedinPackage = listOf(SupportedApps.Linkedin.packageName)
 val snapchatPackage = listOf(SupportedApps.Snapchat.packageName)
 val youtubePackage = listOf(
-    SupportedApps.Youtube.packageName,
-    SupportedApps.YoutubeRevanced.packageName,
-    SupportedApps.YoutubeRevancedExtended.packageName
+	SupportedApps.Youtube.packageName,
+	SupportedApps.YoutubeRevanced.packageName,
+	SupportedApps.YoutubeRevancedExtended.packageName
 )
 
 fun getAppTimeSpent(
-    allAppUsage: List<AppUsage>, packageName: List<String>
+	allAppUsage: List<AppUsage>, packageName: List<String>
 ): Int {
-    return allAppUsage.filter { it.packageName in packageName }.sumOf { it.timeSpent }
+	return allAppUsage.filter { it.packageName in packageName }.sumOf { it.timeSpent }
 }
 
 fun openMail(context: Context, title: String) {
-    val subject = "${context.getString(R.string.app_name)}: $title"
-    val uriBuilder = StringBuilder("mailto:" + Uri.encode(Constants.EMAIL))
-    uriBuilder.append("?subject=" + Uri.encode(subject))
-    val uriString = uriBuilder.toString()
+	val subject = "${context.getString(R.string.app_name)}: $title"
+	val uriBuilder = StringBuilder("mailto:" + Uri.encode(Constants.EMAIL))
+	uriBuilder.append("?subject=" + Uri.encode(subject))
+	val uriString = uriBuilder.toString()
 
-    val intentTitle = "Send $title"
-    val intent = Intent(Intent.ACTION_SENDTO, Uri.parse(uriString))
-    context.startActivity(Intent.createChooser(intent, intentTitle))
+	val intentTitle = "Send $title"
+	val intent = Intent(Intent.ACTION_SENDTO, Uri.parse(uriString))
+	context.startActivity(Intent.createChooser(intent, intentTitle))
+}
+
+fun openUrl(context: Context, urlString: String) {
+	val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
+	context.startActivity(intent)
+}
+
+fun shareApp(context: Context) {
+	val shareIntent = Intent(Intent.ACTION_SEND)
+	shareIntent.type = "text/plain"
+	var shareMessage = context.getString(R.string.tag_line)
+	shareMessage += Constants.REPO_URL + "\n\n"
+	shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name))
+	shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+	context.startActivity(Intent.createChooser(shareIntent, "Share This App"))
 }
 
 fun formatTime(seconds: Int): String {
-    val hours = seconds / 3600
-    val minutes = (seconds % 3600) / 60
+	val hours = seconds / 3600
+	val minutes = (seconds % 3600) / 60
 
-    return when {
-        hours > 0 && minutes > 0 -> "${hours}h ${minutes}m"
-        hours > 0 -> "${hours}h"
-        minutes > 0 -> "${minutes}m"
-        else -> "0m"
-    }
+	return when {
+		hours > 0 && minutes > 0 -> "${hours}h ${minutes}m"
+		hours > 0 -> "${hours}h"
+		minutes > 0 -> "${minutes}m"
+		else -> "0m"
+	}
 }

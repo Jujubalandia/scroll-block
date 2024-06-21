@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.presentation.common.fontRoboto
 import com.vishal2376.scrollblock.presentation.common.h2style
-import com.vishal2376.scrollblock.presentation.common.h3style
 import com.vishal2376.scrollblock.presentation.main.MainEvent
 
 @Composable
@@ -100,7 +99,7 @@ fun NavDrawerItemUI(icon: ImageVector, label: String, onClick: () -> Unit) {
 			contentDescription = null,
 			tint = MaterialTheme.colorScheme.onPrimary
 		)
-		Text(text = label, style = h3style, color = MaterialTheme.colorScheme.onPrimary)
+		Text(text = label, style = h2style, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimary)
 	}
 }
 

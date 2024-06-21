@@ -26,7 +26,7 @@ val headlineStyle = TextStyle(
 )
 
 val h2style = TextStyle(
-	fontSize = 20.sp, fontFamily = fontRoboto
+	fontSize = 20.sp, fontFamily = fontMontserrat
 )
 
 val h3style = TextStyle(
