@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppUsage
+import java.util.Locale
 
 val instagramPackage = listOf(SupportedApps.Instagram.packageName)
 val linkedinPackage = listOf(SupportedApps.Linkedin.packageName)
@@ -57,4 +58,13 @@ fun formatTime(seconds: Int): String {
 		minutes > 0 -> "${minutes}m"
 		else -> "0m"
 	}
+}
+
+fun formatNumber(number: Long): String {
+    return when {
+        number >= 1_000_000_000 -> String.format(Locale.US, "%.1fB", number / 1_000_000_000.0)
+        number >= 1_000_000 -> String.format(Locale.US, "%.1fM", number / 1_000_000.0)
+        number >= 1_000 -> String.format(Locale.US, "%.1fK", number / 1_000.0)
+        else -> number.toString()
+    }.replace(".0", "")
 }
