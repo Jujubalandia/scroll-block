@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vishal2376.scrollblock.R
-import com.vishal2376.scrollblock.presentation.common.fontPoppins
+import com.vishal2376.scrollblock.presentation.common.fontRoboto
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.h3style
 import com.vishal2376.scrollblock.presentation.main.MainEvent
@@ -61,7 +61,7 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 			)
 			Text(
 				text = "v1.0-beta",
-				fontFamily = fontPoppins,
+				fontFamily = fontRoboto,
 				fontSize = 15.sp,
 				fontWeight = FontWeight.Bold,
 				color = MaterialTheme.colorScheme.onPrimary

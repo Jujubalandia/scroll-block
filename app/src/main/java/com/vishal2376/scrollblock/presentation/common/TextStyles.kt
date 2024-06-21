@@ -10,38 +10,33 @@ import com.vishal2376.scrollblock.ui.theme.gray
 
 
 val fontMontserrat = FontFamily(Font(R.font.montserrat))
+val fontRoboto = FontFamily(Font(R.font.roboto))
 val fontPoppins = FontFamily(Font(R.font.poppins))
 
 val titleStyle = TextStyle(
-	fontSize = 30.sp,
-	fontFamily = fontMontserrat,
-	fontWeight = FontWeight.Bold
+	fontSize = 30.sp, fontFamily = fontMontserrat, fontWeight = FontWeight.Bold
 )
 
 val h1style = TextStyle(
-	fontSize = 24.sp,
-	fontFamily = fontMontserrat,
-	fontWeight = FontWeight.Bold
+	fontSize = 24.sp, fontFamily = fontMontserrat, fontWeight = FontWeight.Bold
+)
+
+val headlineStyle = TextStyle(
+	fontSize = 22.sp, fontFamily = fontMontserrat, fontWeight = FontWeight.Bold
 )
 
 val h2style = TextStyle(
-	fontSize = 20.sp,
-	fontFamily = fontPoppins
+	fontSize = 20.sp, fontFamily = fontRoboto
 )
 
 val h3style = TextStyle(
-	fontSize = 18.sp,
-	fontFamily = fontPoppins
+	fontSize = 18.sp, fontFamily = fontRoboto
 )
 
 val descriptionStyle = TextStyle(
-	fontSize = 16.sp,
-	fontFamily = fontPoppins,
-	color = gray
+	fontSize = 16.sp, fontFamily = fontRoboto, color = gray
 )
 
 val smallDescriptionStyle = TextStyle(
-	fontSize = 14.sp,
-	fontFamily = fontPoppins,
-	color = gray
+	fontSize = 14.sp, fontFamily = fontRoboto, color = gray
 )
