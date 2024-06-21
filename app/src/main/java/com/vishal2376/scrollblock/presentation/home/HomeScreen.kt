@@ -1,19 +1,17 @@
 package com.vishal2376.scrollblock.presentation.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -39,8 +37,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -54,16 +54,17 @@ import com.vishal2376.scrollblock.presentation.common.CustomPieChart
 import com.vishal2376.scrollblock.presentation.common.descriptionStyle
 import com.vishal2376.scrollblock.presentation.common.fontMontserrat
 import com.vishal2376.scrollblock.presentation.common.h2style
+import com.vishal2376.scrollblock.presentation.common.titleStyle
 import com.vishal2376.scrollblock.presentation.home.components.AppInfoComponent
 import com.vishal2376.scrollblock.presentation.home.components.NavigationDrawerComponent
-import com.vishal2376.scrollblock.presentation.home.components.ScrollCountIndicatorComponent
 import com.vishal2376.scrollblock.presentation.main.MainEvent
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
+import com.vishal2376.scrollblock.ui.theme.black200
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
-import com.vishal2376.scrollblock.ui.theme.pieChartColors
+import com.vishal2376.scrollblock.ui.theme.white
 import com.vishal2376.scrollblock.utils.SettingsStore
-import com.vishal2376.scrollblock.utils.getAppScrollCount
+import com.vishal2376.scrollblock.utils.getAppTimeSpent
 import com.vishal2376.scrollblock.utils.instagramPackage
 import com.vishal2376.scrollblock.utils.isAccessibilityServiceEnabled
 import com.vishal2376.scrollblock.utils.linkedinPackage
@@ -85,8 +86,11 @@ fun HomeScreen(
         mutableStateOf(isAccessibilityServiceEnabled(context))
     }
 
-    val instagramScrollCount = getAppScrollCount(allAppUsage, instagramPackage)
-    val linkedinScrollCount = getAppScrollCount(allAppUsage, linkedinPackage)
+    // todo: only show today app usage instead of all
+    val instagramScrollCount = getAppTimeSpent(allAppUsage, instagramPackage)
+    val linkedinScrollCount = getAppTimeSpent(allAppUsage, linkedinPackage)
+
+//    val groupedData = allAppUsage.groupBy { it.packageName }
 
     val scrollCountList = mapOf(
         "Instagram" to instagramScrollCount, "Linkedin" to linkedinScrollCount
@@ -130,57 +134,83 @@ fun HomeScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(350.dp),
+                    contentAlignment = Alignment.Center
                 ) {
 
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .verticalScroll(rememberScrollState())
-                            .height(330.dp)
-                            .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
-                            .background(blackGradient),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        // pie chart
+                    // pie chart
+                    if (scrollCountList.values.sum() != 0) {
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(305.dp)
+                                .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
+                                .background(blackGradient),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        // todo: navigate to analytics screen
+                                    }, contentAlignment = Alignment.Center
+                            ) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(
+                                        text = scrollCountList.values.sum().toString(),
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 30.sp,
+                                        fontFamily = fontMontserrat,
+                                    )
+                                    Text(
+                                        text = "scrolls",
+                                        textAlign = TextAlign.Center,
+                                        style = descriptionStyle
+                                    )
+                                }
+                                CustomPieChart(
+                                    data = scrollCountList.values.toList(), pieChartSize = 170.dp
+                                )
+                            }
+
+//                            // pie chart indicator
+//                            Row(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                horizontalArrangement = Arrangement.SpaceEvenly
+//                            ) {
+//                                scrollCountList.forEach { (appName, scrollCount) ->
+//                                    val color =
+//                                        pieChartColors[scrollCountList.keys.indexOf(appName)]
+//                                    ScrollCountIndicatorComponent(
+//                                        appName = appName, scrollCount = scrollCount, color = color
+//                                    )
+//                                }
+//                            }
+
+                        }
+                    } else {
                         Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .clickable {
-                                    // todo: navigate to analytics screen
-                                }, contentAlignment = Alignment.Center
+                            modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = scrollCountList.values.sum().toString(),
-                                    textAlign = TextAlign.Center,
-                                    fontSize = 30.sp,
-                                    fontFamily = fontMontserrat,
-                                )
-                                Text(
-                                    text = "scrolls",
-                                    textAlign = TextAlign.Center,
-                                    style = descriptionStyle
-                                )
-                            }
-                            CustomPieChart(
-                                data = scrollCountList.values.toList(), pieChartSize = 170.dp
+                            Image(
+                                painter = painterResource(R.drawable.empty),
+                                contentDescription = null
                             )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(305.dp)
+                                    .clip(RoundedCornerShape(24.dp))
+                                    .background(
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                Color.Transparent, black200
+                                            )
+                                        )
+                                    )
+                            )
+                            Text(text = "No Activity", style = titleStyle, color = white)
                         }
-
-                        // pie chart indicator
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            scrollCountList.forEach { (appName, scrollCount) ->
-                                val color = pieChartColors[scrollCountList.keys.indexOf(appName)]
-                                ScrollCountIndicatorComponent(
-                                    appName = appName, scrollCount = scrollCount, color = color
-                                )
-                            }
-                        }
-
                     }
 
                     Button(
