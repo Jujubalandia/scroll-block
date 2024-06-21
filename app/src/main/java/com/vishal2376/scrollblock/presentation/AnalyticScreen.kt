@@ -37,8 +37,7 @@ fun AnalyticScreen() {
 					.clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
 					.background(blackGradient),
 				horizontalAlignment = Alignment.CenterHorizontally,
-			) {
-			}
+			) { }
 		}
 	}
 }

@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
-	private val appUsageDao: AppUsageDao,
-	private val summaryDao: SummaryDao
+	private val appUsageDao: AppUsageDao, private val summaryDao: SummaryDao
 ) {
 
 	suspend fun insertAppUsage(appUsage: AppUsage) {

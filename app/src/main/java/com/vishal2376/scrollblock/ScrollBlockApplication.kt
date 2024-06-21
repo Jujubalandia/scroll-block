@@ -15,24 +15,19 @@ class ScrollBlockApplication : Application() {
 	override fun attachBaseContext(base: Context?) {
 		super.attachBaseContext(base)
 		ACRA.init(
-			this, CoreConfigurationBuilder()
-				.withBuildConfigClass(BuildConfig::class.java)
-				.withReportFormat(StringFormat.JSON)
-				.withPluginConfigurations(
+			this,
+			CoreConfigurationBuilder().withBuildConfigClass(BuildConfig::class.java)
+				.withReportFormat(StringFormat.JSON).withPluginConfigurations(
 
 					// Dialog configuration:
-					DialogConfigurationBuilder()
-						.withText(getString(R.string.dialog_text))
+					DialogConfigurationBuilder().withText(getString(R.string.dialog_text))
 						.withTitle(getString(R.string.dialog_title))
 						.withPositiveButtonText(getString(R.string.dialog_positive))
-						.withNegativeButtonText(getString(R.string.dialog_negative))
-						.build(),
+						.withNegativeButtonText(getString(R.string.dialog_negative)).build(),
 
 					// Mail sender configuration:
-					MailSenderConfigurationBuilder()
-						.withMailTo(Constants.EMAIL)
-						.withReportFileName("scrollblock_crash_report.txt")
-						.withReportAsFile(true)
+					MailSenderConfigurationBuilder().withMailTo(Constants.EMAIL)
+						.withReportFileName("scrollblock_crash_report.txt").withReportAsFile(true)
 						.build()
 				)
 		)

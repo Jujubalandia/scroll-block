@@ -10,17 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-	primary = black500,
-	secondary = black200,
-	onPrimary = white,
-	onSecondary = gray
+	primary = black500, secondary = black200, onPrimary = white, onSecondary = gray
 )
 
 private val LightColorScheme = lightColorScheme(
-	primary = black500,
-	secondary = black200,
-	onPrimary = white,
-	onSecondary = gray
+	primary = black500, secondary = black200, onPrimary = white, onSecondary = gray
 
 	/* Other default colors to override
 	background = Color(0xFFFFFBFE),
@@ -35,9 +29,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun ScrollBlockTheme(
-	darkTheme: Boolean = true,
-	dynamicColor: Boolean = false,
-	content: @Composable () -> Unit
+	darkTheme: Boolean = true, dynamicColor: Boolean = false, content: @Composable () -> Unit
 ) {
 	val colorScheme = when {
 		dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -50,8 +42,6 @@ fun ScrollBlockTheme(
 	}
 
 	MaterialTheme(
-		colorScheme = colorScheme,
-		typography = Typography,
-		content = content
+		colorScheme = colorScheme, typography = Typography, content = content
 	)
 }

@@ -21,9 +21,7 @@ object AppModule {
 	@Singleton
 	fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
 		return Room.databaseBuilder(
-			context.applicationContext,
-			AppDatabase::class.java,
-			"scrollblock_db"
+			context.applicationContext, AppDatabase::class.java, "scrollblock_db"
 		).build()
 	}
 

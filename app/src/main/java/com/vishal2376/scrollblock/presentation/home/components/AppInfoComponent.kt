@@ -51,10 +51,8 @@ fun AppInfoComponent(
 	}
 
 	AnimatedVisibility(
-		visible = isVisible,
-		enter = slideInVertically(
-			initialOffsetY = { -it },
-			animationSpec = tween(durationMillis = 500)
+		visible = isVisible, enter = slideInVertically(
+			initialOffsetY = { -it }, animationSpec = tween(durationMillis = 500)
 		) + fadeIn(animationSpec = tween(durationMillis = 1000))
 	) {
 		Row(
@@ -70,8 +68,11 @@ fun AppInfoComponent(
 			var isEnabled by remember { mutableStateOf(app.status) }
 
 			Image(
-				painter = painterResource(id = app.icon), contentDescription = null,
-				modifier = Modifier.size(42.dp).clip(RoundedCornerShape(8.dp))
+				painter = painterResource(id = app.icon),
+				contentDescription = null,
+				modifier = Modifier
+					.size(42.dp)
+					.clip(RoundedCornerShape(8.dp))
 			)
 			Text(
 				modifier = Modifier.weight(1f),
@@ -95,9 +96,7 @@ fun AppInfoComponent(
 private fun AppInfoComponentPreview() {
 	ScrollBlockTheme {
 		val app = AppInfo(
-			icon = R.drawable.instagram,
-			name = "Instagram",
-			status = true
+			icon = R.drawable.instagram, name = "Instagram", status = true
 		)
 		AppInfoComponent(app = app, toggleStatus = {}, index = 1)
 	}

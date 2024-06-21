@@ -61,10 +61,10 @@ fun formatTime(seconds: Int): String {
 }
 
 fun formatNumber(number: Long): String {
-    return when {
-        number >= 1_000_000_000 -> String.format(Locale.US, "%.1fB", number / 1_000_000_000.0)
-        number >= 1_000_000 -> String.format(Locale.US, "%.1fM", number / 1_000_000.0)
-        number >= 1_000 -> String.format(Locale.US, "%.1fK", number / 1_000.0)
-        else -> number.toString()
-    }.replace(".0", "")
+	return when {
+		number >= 1_000_000_000 -> String.format(Locale.US, "%.1fB", number / 1_000_000_000.0)
+		number >= 1_000_000 -> String.format(Locale.US, "%.1fM", number / 1_000_000.0)
+		number >= 1_000 -> String.format(Locale.US, "%.1fK", number / 1_000.0)
+		else -> number.toString()
+	}.replace(".0", "")
 }
