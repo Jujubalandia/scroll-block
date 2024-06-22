@@ -113,5 +113,9 @@
         </rules>
       </arrangement>
     </codeStyleSettings>
+    <codeStyleSettings language="kotlin">
+      <option name="KEEP_LINE_BREAKS" value="false" />
+      <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
+    </codeStyleSettings>
   </code_scheme>
 </component>
