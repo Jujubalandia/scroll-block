@@ -56,7 +56,7 @@ fun formatTime(seconds: Int): String {
 		hours > 0 && minutes > 0 -> "${hours}h ${minutes}m"
 		hours > 0 -> "${hours}h"
 		minutes > 0 -> "${minutes}m"
-		else -> "0m"
+		else -> "${seconds}s"
 	}
 }
 
