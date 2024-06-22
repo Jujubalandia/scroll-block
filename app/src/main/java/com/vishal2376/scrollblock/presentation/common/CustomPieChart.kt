@@ -26,7 +26,7 @@ fun CustomPieChart(
 	startAngle: Float = -180f,
 	pieChartSize: Dp = 200.dp,
 	animDuration: Int = 1000,
-	gapAngle: Float = 25f
+	gapAngle: Float = 0f
 ) {
 	// calculate each arc value
 	val totalSum = data.sum()

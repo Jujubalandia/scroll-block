@@ -17,4 +17,4 @@ val white = Color(0xFFD3DEEB)
 val gray = Color(0xFF9E9E9E)
 
 
-val pieChartColors = listOf(blue, white, green)
+val pieChartColors = listOf(blue, white, red, green)
