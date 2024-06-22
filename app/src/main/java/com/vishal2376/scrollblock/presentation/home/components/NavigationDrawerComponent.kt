@@ -48,7 +48,7 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 		Spacer(modifier = Modifier.height(50.dp))
 		Column(horizontalAlignment = Alignment.CenterHorizontally) {
 			Image(
-				painter = painterResource(R.drawable.ic_launcher_foreground),
+				painter = painterResource(R.drawable.app_logo),
 				contentDescription = null,
 				modifier = Modifier.size(64.dp),
 			)

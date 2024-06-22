@@ -228,8 +228,8 @@ fun HomeScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = 32.dp),
                             columns = GridCells.Fixed(2),
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(24.dp),
                         ) {
                             items(timeWastedList) {
                                 PieChartIndicatorComponent(
