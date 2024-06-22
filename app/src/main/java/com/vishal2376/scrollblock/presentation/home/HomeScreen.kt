@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,243 +53,273 @@ import androidx.compose.ui.unit.sp
 import com.vishal2376.scrollblock.R
 import com.vishal2376.scrollblock.domain.model.AppInfo
 import com.vishal2376.scrollblock.domain.model.AppUsage
+import com.vishal2376.scrollblock.domain.model.TimeWastedInfo
 import com.vishal2376.scrollblock.presentation.common.CustomPieChart
 import com.vishal2376.scrollblock.presentation.common.descriptionStyle
-import com.vishal2376.scrollblock.presentation.common.fontMontserrat
+import com.vishal2376.scrollblock.presentation.common.fontRoboto
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.titleStyle
 import com.vishal2376.scrollblock.presentation.home.components.AppInfoComponent
 import com.vishal2376.scrollblock.presentation.home.components.NavigationDrawerComponent
+import com.vishal2376.scrollblock.presentation.home.components.PieChartIndicatorComponent
 import com.vishal2376.scrollblock.presentation.main.MainEvent
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.black200
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
+import com.vishal2376.scrollblock.ui.theme.pieChartColors
 import com.vishal2376.scrollblock.ui.theme.white
 import com.vishal2376.scrollblock.utils.SettingsStore
+import com.vishal2376.scrollblock.utils.formatTime
 import com.vishal2376.scrollblock.utils.getAppTimeSpent
 import com.vishal2376.scrollblock.utils.instagramPackage
 import com.vishal2376.scrollblock.utils.isAccessibilityServiceEnabled
 import com.vishal2376.scrollblock.utils.linkedinPackage
 import com.vishal2376.scrollblock.utils.openAccessibilitySettings
+import com.vishal2376.scrollblock.utils.snapchatPackage
+import com.vishal2376.scrollblock.utils.youtubePackage
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-	allAppUsage: List<AppUsage>, onNavigate: (String) -> Unit, onMainEvent: (MainEvent) -> Unit
+    allAppUsage: List<AppUsage>, onNavigate: (String) -> Unit, onMainEvent: (MainEvent) -> Unit
 ) {
 
-	val context = LocalContext.current
-	val scope = rememberCoroutineScope()
-	val store = SettingsStore(context)
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val store = SettingsStore(context)
 
-	//todo: refactor it later
-	val isServiceEnabled by remember {
-		mutableStateOf(isAccessibilityServiceEnabled(context))
-	}
+    //todo: refactor it later
+    val isServiceEnabled by remember {
+        mutableStateOf(isAccessibilityServiceEnabled(context))
+    }
 
-	// todo: only show today app usage instead of all
-	val instagramScrollCount = getAppTimeSpent(allAppUsage, instagramPackage)
-	val linkedinScrollCount = getAppTimeSpent(allAppUsage, linkedinPackage)
+    // todo: only show today app usage instead of all
+    val instagramTimeSpent = getAppTimeSpent(allAppUsage, instagramPackage)
+    val youtubeTimeSpent = getAppTimeSpent(allAppUsage, youtubePackage)
+    val linkedinTimeSpent = getAppTimeSpent(allAppUsage, linkedinPackage)
+    val snapchatTimeSpent = getAppTimeSpent(allAppUsage, snapchatPackage)
 
-//    val groupedData = allAppUsage.groupBy { it.packageName }
+    //    val groupedData = allAppUsage.groupBy { it.packageName }
 
-	val scrollCountList = mapOf(
-		"Instagram" to instagramScrollCount, "Linkedin" to linkedinScrollCount
-	)
+    val timeWastedList = listOf(
+        TimeWastedInfo("Instagram", instagramTimeSpent),
+        TimeWastedInfo("Youtube", youtubeTimeSpent),
+        TimeWastedInfo("Linkedin", linkedinTimeSpent),
+        TimeWastedInfo("Snapchat", snapchatTimeSpent)
+    )
 
-	val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val totalTimeWasted = timeWastedList.map { it.timeWasted }
 
-	ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-		ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.primary) {
-			NavigationDrawerComponent(onMainEvent)
-		}
-	}) {
-		Scaffold(topBar = {
-			TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-				containerColor = Color.Transparent
-			), title = {
-				Text(
-					text = stringResource(id = R.string.app_name), style = h2style
-				)
-			}, navigationIcon = {
-				IconButton(onClick = {
-					scope.launch {
-						drawerState.apply {
-							if (isClosed) open() else close()
-						}
-					}
-				}) {
-					Icon(
-						imageVector = Icons.Default.Menu, contentDescription = null
-					)
-				}
-			})
-		}) { innerPadding ->
-			Column(
-				modifier = Modifier
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
+        ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.primary) {
+            NavigationDrawerComponent(onMainEvent)
+        }
+    }) {
+        Scaffold(topBar = {
+            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.app_name), style = h2style
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        scope.launch {
+                            drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Menu, contentDescription = null
+                        )
+                    }
+                })
+        }) { innerPadding ->
+            Column(
+                modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.primary)
                     .padding(innerPadding),
-				verticalArrangement = Arrangement.spacedBy(16.dp),
-			) {
-				Box(
-					modifier = Modifier
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Box(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp),
-					contentAlignment = Alignment.Center
-				) {
+                        .height(350.dp)
+                ) {
 
-					// pie chart
-					if (scrollCountList.values.sum() != 0) {
-						Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .height(305.dp)
-                                .clip(
-                                    RoundedCornerShape(
-                                        bottomStart = 24.dp, bottomEnd = 24.dp
-                                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(330.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 24.dp, bottomEnd = 24.dp
                                 )
-                                .background(blackGradient),
-							horizontalAlignment = Alignment.CenterHorizontally,
-						) {
-							Box(
-								modifier = Modifier
+                            )
+                            .background(blackGradient),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        // pie chart
+                        if (totalTimeWasted.sum() != 0) {
+                            Box(
+                                modifier = Modifier
                                     .clip(CircleShape)
-                                    .clickable {
-                                        // todo: navigate to analytics screen
+                                    .clickable {                                    // todo: navigate to analytics screen
                                     }, contentAlignment = Alignment.Center
-							) {
-								Column(horizontalAlignment = Alignment.CenterHorizontally) {
-									Text(
-										text = scrollCountList.values.sum().toString(),
-										textAlign = TextAlign.Center,
-										fontSize = 30.sp,
-										fontFamily = fontMontserrat,
-									)
-									Text(
-										text = "scrolls",
-										textAlign = TextAlign.Center,
-										style = descriptionStyle
-									)
-								}
-								CustomPieChart(
-									data = scrollCountList.values.toList(), pieChartSize = 170.dp
-								)
-							}
-
-//                            // pie chart indicator
-//                            Row(
-//                                modifier = Modifier.fillMaxWidth(),
-//                                horizontalArrangement = Arrangement.SpaceEvenly
-//                            ) {
-//                                scrollCountList.forEach { (appName, scrollCount) ->
-//                                    val color =
-//                                        pieChartColors[scrollCountList.keys.indexOf(appName)]
-//                                    ScrollCountIndicatorComponent(
-//                                        appName = appName, scrollCount = scrollCount, color = color
-//                                    )
-//                                }
-//                            }
-
-						}
-					} else {
-						Box(
-							modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
-						) {
-							Image(
-								painter = painterResource(R.drawable.empty),
-								contentDescription = null
-							)
-							Box(
-								modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(305.dp)
-                                    .clip(RoundedCornerShape(24.dp))
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color.Transparent, black200
+                            ) {
+                                Column(modifier = Modifier.padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(
+                                        text = "Time Wasted",
+                                        textAlign = TextAlign.Center,
+                                        style = descriptionStyle
+                                    )
+                                    Text(
+                                        text = formatTime(totalTimeWasted.sum()),
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 30.sp,
+                                        fontFamily = fontRoboto,
+                                    )
+                                }
+                                CustomPieChart(
+                                    data = totalTimeWasted, pieChartSize = 160.dp
+                                )
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.empty),
+                                    contentDescription = null
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(305.dp)
+                                        .clip(RoundedCornerShape(24.dp))
+                                        .background(
+                                            Brush.verticalGradient(
+                                                listOf(
+                                                    Color.Transparent, black200
+                                                )
                                             )
                                         )
-                                    )
-							)
-							Text(text = "No Activity", style = titleStyle, color = white)
-						}
-					}
+                                )
+                                Text(
+                                    text = "No Activity", style = titleStyle, color = white
+                                )
+                            }
+                        }
 
-					Button(
-						modifier = Modifier.align(Alignment.BottomCenter), onClick = {
-							openAccessibilitySettings(context)
-						}, colors = ButtonDefaults.buttonColors(
-							containerColor = blue,
-							contentColor = MaterialTheme.colorScheme.onPrimary
-						)
-					) {
-						Text(
-							modifier = Modifier.padding(horizontal = 7.dp, vertical = 4.dp),
-							text = if (isServiceEnabled) "Stop Service" else "Start Service",
-							fontWeight = FontWeight.Bold,
-							fontSize = 16.sp
-						)
-					}
+                        // pie chart indicator
+                        LazyVerticalGrid(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        ) {
+                            items(timeWastedList) {
+                                PieChartIndicatorComponent(
+                                    appName = it.name,
+                                    time = it.timeWasted,
+                                    color = pieChartColors[timeWastedList.indexOf(it) % pieChartColors.size]
+                                )
+                            }
+                        }
+                    }
 
-				}
-				Text(
-					modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp),
-					text = "Block apps",
-					style = h2style,
-					fontWeight = FontWeight.Bold
-				)
-				Column(
-					modifier = Modifier
+                    Button(
+                        modifier = Modifier.align(Alignment.BottomCenter), onClick = {
+                            openAccessibilitySettings(context)
+                        }, colors = ButtonDefaults.buttonColors(
+                            containerColor = blue,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(
+                                horizontal = 7.dp, vertical = 4.dp
+                            ),
+                            text = if (isServiceEnabled) "Stop Service" else "Start Service",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+
+                // supported apps list
+                Text(
+                    modifier = Modifier.padding(
+                        16.dp, 16.dp, 16.dp, 0.dp
+                    ), text = "Block apps", style = h2style, fontWeight = FontWeight.Bold
+                )
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-					verticalArrangement = Arrangement.spacedBy(16.dp)
-				) {
-					// todo: refactor it later
-					val instagramKey = store.instagramKey.collectAsState(initial = true)
-					val youtubeKey = store.youtubeKey.collectAsState(initial = true)
-					val linkedinKey = store.linkedinKey.collectAsState(initial = true)
-					val snapchatKey = store.snapchatKey.collectAsState(initial = true)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {                    // todo: refactor it later
+                    val instagramKey = store.instagramKey.collectAsState(initial = true)
+                    val youtubeKey = store.youtubeKey.collectAsState(initial = true)
+                    val linkedinKey = store.linkedinKey.collectAsState(initial = true)
+                    val snapchatKey = store.snapchatKey.collectAsState(initial = true)
 
-					val supportedApps = listOf(
-						AppInfo(R.drawable.instagram, "Instagram Reels", instagramKey.value),
-						AppInfo(R.drawable.youtube, "Youtube Shorts", youtubeKey.value),
-						AppInfo(R.drawable.linkedin, "Linkedin Video", linkedinKey.value),
-						AppInfo(R.drawable.snapchat, "Snapchat Spotlight", snapchatKey.value),
-					)
+                    val supportedApps = listOf(
+                        AppInfo(
+                            R.drawable.instagram, "Instagram Reels", instagramKey.value
+                        ),
+                        AppInfo(
+                            R.drawable.youtube, "Youtube Shorts", youtubeKey.value
+                        ),
+                        AppInfo(
+                            R.drawable.linkedin, "Linkedin Video", linkedinKey.value
+                        ),
+                        AppInfo(
+                            R.drawable.snapchat, "Snapchat Spotlight", snapchatKey.value
+                        ),
+                    )
 
-					supportedApps.forEach {
-						AppInfoComponent(app = it, index = supportedApps.indexOf(it)) {
-							scope.launch {
-								when (it.name) {
-									"Instagram Reels" -> store.setInstagramKey(!instagramKey.value)
-									"Youtube Shorts" -> store.setYoutubeKey(!youtubeKey.value)
-									"Linkedin Video" -> store.setLinkedinKey(!linkedinKey.value)
-									"Snapchat Spotlight" -> store.setSnapchatKey(!snapchatKey.value)
-								}
-							}
-						}
-
-					}
-				}
-			}
-		}
-	}
+                    supportedApps.forEach {
+                        AppInfoComponent(
+                            app = it, index = supportedApps.indexOf(it)
+                        ) {
+                            scope.launch {
+                                when (it.name) {
+                                    "Instagram Reels" -> store.setInstagramKey(!instagramKey.value)
+                                    "Youtube Shorts" -> store.setYoutubeKey(!youtubeKey.value)
+                                    "Linkedin Video" -> store.setLinkedinKey(!linkedinKey.value)
+                                    "Snapchat Spotlight" -> store.setSnapchatKey(!snapchatKey.value)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-	ScrollBlockTheme {
-		//create a fake appUsageList
-		val appUsageList = listOf(
-			AppUsage(packageName = "com.instagram.android", scrollCount = 100),
-			AppUsage(packageName = "com.youtube.android", scrollCount = 100),
-		)
-		HomeScreen(appUsageList, {}, {})
-	}
+    ScrollBlockTheme {        //create a fake appUsageList
+        val appUsageList = listOf(
+            AppUsage(
+                packageName = "com.instagram.android", timeSpent = 100
+            ),
+            AppUsage(
+                packageName = "com.youtube.android", timeSpent = 100
+            ),
+        )
+        HomeScreen(appUsageList, {}, {})
+    }
 }
