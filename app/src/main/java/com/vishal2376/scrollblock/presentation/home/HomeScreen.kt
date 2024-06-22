@@ -32,7 +32,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,13 +62,13 @@ import com.vishal2376.scrollblock.presentation.home.components.AppInfoComponent
 import com.vishal2376.scrollblock.presentation.home.components.NavigationDrawerComponent
 import com.vishal2376.scrollblock.presentation.home.components.PieChartIndicatorComponent
 import com.vishal2376.scrollblock.presentation.main.MainEvent
+import com.vishal2376.scrollblock.presentation.main.MainState
 import com.vishal2376.scrollblock.ui.theme.ScrollBlockTheme
 import com.vishal2376.scrollblock.ui.theme.black200
 import com.vishal2376.scrollblock.ui.theme.blackGradient
 import com.vishal2376.scrollblock.ui.theme.blue
 import com.vishal2376.scrollblock.ui.theme.pieChartColors
 import com.vishal2376.scrollblock.ui.theme.white
-import com.vishal2376.scrollblock.utils.SettingsStore
 import com.vishal2376.scrollblock.utils.formatTime
 import com.vishal2376.scrollblock.utils.getAppTimeSpent
 import com.vishal2376.scrollblock.utils.instagramPackage
@@ -83,12 +82,14 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    allAppUsage: List<AppUsage>, onNavigate: (String) -> Unit, onMainEvent: (MainEvent) -> Unit
+    todayAppUsage: List<AppUsage>,
+    appState: MainState,
+    onNavigate: (String) -> Unit,
+    onMainEvent: (MainEvent) -> Unit
 ) {
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val store = SettingsStore(context)
 
     //todo: refactor it later
     val isServiceEnabled by remember {
@@ -96,10 +97,10 @@ fun HomeScreen(
     }
 
     // todo: only show today app usage instead of all
-    val instagramTimeSpent = getAppTimeSpent(allAppUsage, instagramPackage)
-    val youtubeTimeSpent = getAppTimeSpent(allAppUsage, youtubePackage)
-    val linkedinTimeSpent = getAppTimeSpent(allAppUsage, linkedinPackage)
-    val snapchatTimeSpent = getAppTimeSpent(allAppUsage, snapchatPackage)
+    val instagramTimeSpent = getAppTimeSpent(todayAppUsage, instagramPackage)
+    val youtubeTimeSpent = getAppTimeSpent(todayAppUsage, youtubePackage)
+    val linkedinTimeSpent = getAppTimeSpent(todayAppUsage, linkedinPackage)
+    val snapchatTimeSpent = getAppTimeSpent(todayAppUsage, snapchatPackage)
 
     //    val groupedData = allAppUsage.groupBy { it.packageName }
 
@@ -156,7 +157,7 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(330.dp)
+                            .height(327.dp)
                             .clip(
                                 RoundedCornerShape(
                                     bottomStart = 24.dp, bottomEnd = 24.dp
@@ -173,7 +174,10 @@ fun HomeScreen(
                                     .clickable {                                    // todo: navigate to analytics screen
                                     }, contentAlignment = Alignment.Center
                             ) {
-                                Column(modifier = Modifier.padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Column(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
                                     Text(
                                         text = "Time Wasted",
                                         textAlign = TextAlign.Center,
@@ -187,7 +191,7 @@ fun HomeScreen(
                                     )
                                 }
                                 CustomPieChart(
-                                    data = totalTimeWasted, pieChartSize = 160.dp
+                                    data = totalTimeWasted, pieChartSize = 165.dp
                                 )
                             }
                         } else {
@@ -222,7 +226,7 @@ fun HomeScreen(
                         LazyVerticalGrid(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 24.dp),
+                                .padding(horizontal = 32.dp),
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -266,25 +270,21 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {                    // todo: refactor it later
-                    val instagramKey = store.instagramKey.collectAsState(initial = true)
-                    val youtubeKey = store.youtubeKey.collectAsState(initial = true)
-                    val linkedinKey = store.linkedinKey.collectAsState(initial = true)
-                    val snapchatKey = store.snapchatKey.collectAsState(initial = true)
-
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    // todo: refactor it later
                     val supportedApps = listOf(
                         AppInfo(
-                            R.drawable.instagram, "Instagram Reels", instagramKey.value
+                            R.drawable.instagram, "Instagram Reels", appState.instagramKey
                         ),
                         AppInfo(
-                            R.drawable.youtube, "Youtube Shorts", youtubeKey.value
+                            R.drawable.youtube, "Youtube Shorts", appState.youtubeKey
                         ),
                         AppInfo(
-                            R.drawable.linkedin, "Linkedin Video", linkedinKey.value
+                            R.drawable.linkedin, "Linkedin Video", appState.linkedinKey
                         ),
                         AppInfo(
-                            R.drawable.snapchat, "Snapchat Spotlight", snapchatKey.value
+                            R.drawable.snapchat, "Snapchat Spotlight", appState.snapchatKey
                         ),
                     )
 
@@ -294,10 +294,21 @@ fun HomeScreen(
                         ) {
                             scope.launch {
                                 when (it.name) {
-                                    "Instagram Reels" -> store.setInstagramKey(!instagramKey.value)
-                                    "Youtube Shorts" -> store.setYoutubeKey(!youtubeKey.value)
-                                    "Linkedin Video" -> store.setLinkedinKey(!linkedinKey.value)
-                                    "Snapchat Spotlight" -> store.setSnapchatKey(!snapchatKey.value)
+                                    "Instagram Reels" -> {
+                                        onMainEvent(MainEvent.OnToggleInstagram(!appState.instagramKey))
+                                    }
+
+                                    "Youtube Shorts" -> {
+                                        onMainEvent(MainEvent.OnToggleYoutube(!appState.youtubeKey))
+                                    }
+
+                                    "Linkedin Video" -> {
+                                        onMainEvent(MainEvent.OnToggleLinkedin(!appState.linkedinKey))
+                                    }
+
+                                    "Snapchat Spotlight" -> {
+                                        onMainEvent(MainEvent.OnToggleSnapchat(!appState.snapchatKey))
+                                    }
                                 }
                             }
                         }
@@ -320,6 +331,6 @@ private fun HomeScreenPreview() {
                 packageName = "com.youtube.android", timeSpent = 100
             ),
         )
-        HomeScreen(appUsageList, {}, {})
+        HomeScreen(appUsageList, MainState(), {}, {})
     }
 }
