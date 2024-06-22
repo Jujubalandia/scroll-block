@@ -12,20 +12,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.vishal2376.scrollblock.utils.formatTime
 
 @Composable
-fun ScrollCountIndicatorComponent(appName: String, scrollCount: Int, color: Color) {
-	Row(
-		verticalAlignment = Alignment.CenterVertically,
-		horizontalArrangement = Arrangement.spacedBy(8.dp)
-	) {
-		Box(
-			modifier = Modifier
+fun PieChartIndicatorComponent(appName: String, time: Int, color: Color) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
                 .size(16.dp)
                 .background(color, CircleShape)
-		)
-		Text(appName)
-		Text(scrollCount.toString())
-	}
+        )
+        Text(modifier = Modifier.weight(1f), text = appName)
+        Text(formatTime(time))
+    }
 
 }
