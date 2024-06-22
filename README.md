@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/vishal2376/scroll-block/assets/38159691/27bf4408-78f2-459f-b807-9c71f9a375a6" width="100px"/>
+<img src="https://github.com/vishal2376/scroll-block/assets/38159691/99f5e174-1b22-4103-a83f-9baa9925d38e" width="100px"/>
 
 # **Scroll Block**
 
