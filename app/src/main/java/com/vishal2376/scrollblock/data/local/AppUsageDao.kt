@@ -17,4 +17,7 @@ interface AppUsageDao {
 
 	@Query("SELECT * FROM AppUsage")
 	fun getAllAppUsage(): Flow<List<AppUsage>>
+
+    @Query("SELECT * FROM AppUsage WHERE date = :date")
+    fun getAppUsageByDate(date: String): Flow<List<AppUsage>>
 }
