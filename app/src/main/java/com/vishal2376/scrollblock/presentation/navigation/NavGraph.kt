@@ -21,7 +21,7 @@ fun NavGraph(viewModel: MainViewModel) {
 	val context = LocalContext.current
 	val navController = rememberNavController()
 
-	val allAppUsage by viewModel.appUsageList.collectAsState(initial = emptyList())
+	val todayAppUsage by viewModel.todayAppUsageList.collectAsState(initial = emptyList())
 	val isServiceEnabled by remember {
 		mutableStateOf(isAccessibilityServiceEnabled(context))
 	}
@@ -36,7 +36,7 @@ fun NavGraph(viewModel: MainViewModel) {
 		navController = navController, startDestination = startRoute
 	) {
 		composable(Screen.HomeScreen.name) {
-			HomeScreen(allAppUsage, onMainEvent = viewModel::onEvent, onNavigate = { route ->
+			HomeScreen(todayAppUsage,appState = viewModel.appState, onMainEvent = viewModel::onEvent, onNavigate = { route ->
 				navController.navigate(route = route)
 			})
 		}

@@ -14,19 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-	private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 
-		// create notification channel
-		NotificationHelper(applicationContext).createNotificationChannel()
+        // create notification channel
+        NotificationHelper(applicationContext).createNotificationChannel()
 
-		setContent {
-			ScrollBlockTheme {
-				NavGraph(viewModel)
-			}
-		}
-	}
+        // load app status
+        viewModel.loadAppStatus()
+
+        setContent {
+            ScrollBlockTheme {
+                NavGraph(viewModel)
+            }
+        }
+    }
 }
