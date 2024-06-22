@@ -1,6 +1,7 @@
 package com.vishal2376.scrollblock.services
 
 import android.accessibilityservice.AccessibilityService
+import android.app.Service
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import com.vishal2376.scrollblock.data.local.AppUsageDao
@@ -161,11 +162,11 @@ class ScrollAccessibility : AccessibilityService() {
 	}
 
 	override fun onInterrupt() {
-		stopForeground(true)
+		stopForeground(Service.STOP_FOREGROUND_REMOVE)
 	}
 
 	override fun onDestroy() {
 		super.onDestroy()
-		stopForeground(true)
+		stopForeground(Service.STOP_FOREGROUND_REMOVE)
 	}
 }
