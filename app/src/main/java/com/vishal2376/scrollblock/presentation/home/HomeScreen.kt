@@ -55,7 +55,7 @@ import com.vishal2376.scrollblock.domain.model.AppUsage
 import com.vishal2376.scrollblock.domain.model.TimeWastedInfo
 import com.vishal2376.scrollblock.presentation.common.CustomPieChart
 import com.vishal2376.scrollblock.presentation.common.descriptionStyle
-import com.vishal2376.scrollblock.presentation.common.fontRoboto
+import com.vishal2376.scrollblock.presentation.common.fontMontserrat
 import com.vishal2376.scrollblock.presentation.common.h2style
 import com.vishal2376.scrollblock.presentation.common.titleStyle
 import com.vishal2376.scrollblock.presentation.home.components.AppInfoComponent
@@ -111,7 +111,7 @@ fun HomeScreen(
         TimeWastedInfo("Snapchat", snapchatTimeSpent)
     )
 
-    val totalTimeWasted = timeWastedList.map { it.timeWasted }
+    val totalTimeWasted = timeWastedList.filter { it.timeWasted > 0 }.map { it.timeWasted }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -186,12 +186,12 @@ fun HomeScreen(
                                     Text(
                                         text = formatTime(totalTimeWasted.sum()),
                                         textAlign = TextAlign.Center,
-                                        fontSize = 30.sp,
-                                        fontFamily = fontRoboto,
+                                        fontSize = 28.sp,
+                                        fontFamily = fontMontserrat,
                                     )
                                 }
                                 CustomPieChart(
-                                    data = totalTimeWasted, pieChartSize = 165.dp
+                                    data = totalTimeWasted, pieChartSize = 175.dp
                                 )
                             }
                         } else {
@@ -325,10 +325,10 @@ private fun HomeScreenPreview() {
     ScrollBlockTheme {        //create a fake appUsageList
         val appUsageList = listOf(
             AppUsage(
-                packageName = "com.instagram.android", timeSpent = 100
+                packageName = "com.instagram.android", timeSpent = 11020
             ),
             AppUsage(
-                packageName = "com.youtube.android", timeSpent = 100
+                packageName = "com.snapchat.android", timeSpent = 1210
             ),
         )
         HomeScreen(appUsageList, MainState(), {}, {})
