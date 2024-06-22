@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.vishal2376.scrollblock.presentation.common.smallDescriptionStyle
 import com.vishal2376.scrollblock.utils.formatTime
 
 @Composable
@@ -25,8 +26,8 @@ fun PieChartIndicatorComponent(appName: String, time: Int, color: Color) {
                 .size(16.dp)
                 .background(color, CircleShape)
         )
-        Text(modifier = Modifier.weight(1f), text = appName)
-        Text(formatTime(time))
+        Text(modifier = Modifier.weight(1f), text = appName, style = smallDescriptionStyle)
+        Text(formatTime(time),style = smallDescriptionStyle)
     }
 
 }
