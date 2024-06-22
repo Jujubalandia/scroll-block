@@ -107,26 +107,28 @@ class ScrollAccessibility : AccessibilityService() {
 
 					// Detect targeted content
 					val viewId = "${it.packageName}:id/${it.blockId}"
-					val blockContent = rootInActiveWindow.findAccessibilityNodeInfosByViewId(viewId)
+					val blockContent = rootInActiveWindow?.findAccessibilityNodeInfosByViewId(viewId)
 
 					// Detect Scrolling
-					if (blockContent.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
-						if (!appStatus[it]!!) {
-							// Start Scrolling time
-							if (startTime == 0) {
-								startTime = LocalTime.now().toSecondOfDay()
-							}
+					if (blockContent != null) {
+						if (blockContent.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
+							if (!appStatus[it]!!) {
+								// Start Scrolling time
+								if (startTime == 0) {
+									startTime = LocalTime.now().toSecondOfDay()
+								}
 
-							// Detect single scroll per content
-							if (currentIndex != event.fromIndex) {
-								appScrollCount++
-								currentIndex = event.fromIndex
+								// Detect single scroll per content
+								if (currentIndex != event.fromIndex) {
+									appScrollCount++
+									currentIndex = event.fromIndex
+								}
+							} else {
+								performGlobalAction(GLOBAL_ACTION_BACK)
+								Toast.makeText(
+									this@ScrollAccessibility, "Feature Blocked", Toast.LENGTH_SHORT
+								).show()
 							}
-						} else {
-							performGlobalAction(GLOBAL_ACTION_BACK)
-							Toast.makeText(
-								this@ScrollAccessibility, "Feature Blocked", Toast.LENGTH_SHORT
-							).show()
 						}
 					}
 				}
