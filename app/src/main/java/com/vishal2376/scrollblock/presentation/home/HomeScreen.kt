@@ -126,34 +126,38 @@ fun HomeScreen(
 		}) { innerPadding ->
 			Column(
 				modifier = Modifier
-					.fillMaxSize()
-					.background(MaterialTheme.colorScheme.primary)
-					.padding(innerPadding),
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(innerPadding),
 				verticalArrangement = Arrangement.spacedBy(16.dp),
 			) {
 				Box(
 					modifier = Modifier
-						.fillMaxWidth()
-						.height(350.dp),
+                        .fillMaxWidth()
+                        .height(350.dp),
 					contentAlignment = Alignment.Center
 				) {
 
 					// pie chart
 					if (scrollCountList.values.sum() != 0) {
 						Column(
-							Modifier
-								.fillMaxWidth()
-								.height(305.dp)
-								.clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
-								.background(blackGradient),
+                            Modifier
+                                .fillMaxWidth()
+                                .height(305.dp)
+                                .clip(
+                                    RoundedCornerShape(
+                                        bottomStart = 24.dp, bottomEnd = 24.dp
+                                    )
+                                )
+                                .background(blackGradient),
 							horizontalAlignment = Alignment.CenterHorizontally,
 						) {
 							Box(
 								modifier = Modifier
-									.clip(CircleShape)
-									.clickable {
-										// todo: navigate to analytics screen
-									}, contentAlignment = Alignment.Center
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        // todo: navigate to analytics screen
+                                    }, contentAlignment = Alignment.Center
 							) {
 								Column(horizontalAlignment = Alignment.CenterHorizontally) {
 									Text(
@@ -198,16 +202,16 @@ fun HomeScreen(
 							)
 							Box(
 								modifier = Modifier
-									.fillMaxWidth()
-									.height(305.dp)
-									.clip(RoundedCornerShape(24.dp))
-									.background(
-										Brush.verticalGradient(
-											listOf(
-												Color.Transparent, black200
-											)
-										)
-									)
+                                    .fillMaxWidth()
+                                    .height(305.dp)
+                                    .clip(RoundedCornerShape(24.dp))
+                                    .background(
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                Color.Transparent, black200
+                                            )
+                                        )
+                                    )
 							)
 							Text(text = "No Activity", style = titleStyle, color = white)
 						}
@@ -238,8 +242,8 @@ fun HomeScreen(
 				)
 				Column(
 					modifier = Modifier
-						.fillMaxWidth()
-						.padding(horizontal = 16.dp),
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
 					verticalArrangement = Arrangement.spacedBy(16.dp)
 				) {
 					// todo: refactor it later

@@ -40,9 +40,9 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 	Column(
 		horizontalAlignment = Alignment.CenterHorizontally,
 		modifier = Modifier
-			.fillMaxHeight()
-			.fillMaxWidth(0.8f)
-			.padding(vertical = 64.dp)
+            .fillMaxHeight()
+            .fillMaxWidth(0.8f)
+            .padding(vertical = 64.dp)
 	) {
 
 		Spacer(modifier = Modifier.height(50.dp))
@@ -88,11 +88,11 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 @Composable
 fun NavDrawerItemUI(icon: ImageVector, label: String, onClick: () -> Unit) {
 	Row(modifier = Modifier
-		.fillMaxWidth()
-		.clickable { onClick() }
-		.padding(32.dp, 8.dp),
-		horizontalArrangement = Arrangement.spacedBy(16.dp),
-		verticalAlignment = Alignment.CenterVertically) {
+        .fillMaxWidth()
+        .clickable { onClick() }
+        .padding(32.dp, 8.dp),
+	    horizontalArrangement = Arrangement.spacedBy(16.dp),
+	    verticalAlignment = Alignment.CenterVertically) {
 		Icon(
 			modifier = Modifier.size(28.dp),
 			imageVector = icon,

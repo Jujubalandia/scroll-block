@@ -80,13 +80,12 @@ fun AppInfoComponent(
 				style = h4style,
 				color = MaterialTheme.colorScheme.onPrimary
 			)
-			Switch(modifier = Modifier.scale(0.9f),
-				colors = SwitchDefaults.colors(checkedTrackColor = white, checkedThumbColor = blue),
-				checked = isEnabled,
-				onCheckedChange = {
-					toggleStatus()
-					isEnabled = !isEnabled
-				})
+			Switch(modifier = Modifier.scale(0.9f), colors = SwitchDefaults.colors(
+				checkedTrackColor = white, checkedThumbColor = blue
+			), checked = isEnabled, onCheckedChange = {
+				toggleStatus()
+				isEnabled = !isEnabled
+			})
 		}
 	}
 }

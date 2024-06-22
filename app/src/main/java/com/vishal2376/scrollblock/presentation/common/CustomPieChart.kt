@@ -54,8 +54,8 @@ fun CustomPieChart(
 	) {
 		Canvas(
 			modifier = Modifier
-				.size(pieChartSize)
-				.rotate(90f * animationProgress.value)
+                .size(pieChartSize)
+                .rotate(90f * animationProgress.value)
 		) {
 			arcValues.forEachIndexed { index, arcValue ->
 				drawArc(

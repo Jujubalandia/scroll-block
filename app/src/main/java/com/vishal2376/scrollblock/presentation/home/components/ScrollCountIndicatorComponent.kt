@@ -21,8 +21,8 @@ fun ScrollCountIndicatorComponent(appName: String, scrollCount: Int, color: Colo
 	) {
 		Box(
 			modifier = Modifier
-				.size(16.dp)
-				.background(color, CircleShape)
+                .size(16.dp)
+                .background(color, CircleShape)
 		)
 		Text(appName)
 		Text(scrollCount.toString())
