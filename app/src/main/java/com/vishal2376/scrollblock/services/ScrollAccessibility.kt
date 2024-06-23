@@ -37,6 +37,11 @@ class ScrollAccessibility : AccessibilityService() {
     private var isLinkedinDisabled = true
     private var isSnapchatDisabled = true
 
+    companion object {
+        private const val MIN_VALID_SCROLL_COUNT = 3
+        private const val MIN_VALID_TIME_SPENT = 5
+    }
+
     private var appStatus = mapOf(
         SupportedApps.Instagram to isInstagramDisabled,
         SupportedApps.Youtube to isYoutubeDisabled,
@@ -90,7 +95,7 @@ class ScrollAccessibility : AccessibilityService() {
                     )
                 }
 
-                if ((appScrollCount != 0 || appTimeSpent != 0) && appPackageName.isNotEmpty()) {
+                if (isValidAppUsage()) {
                     // Calculate App Usage
                     endTime = LocalTime.now().toSecondOfDay()
                     appTimeSpent = max(0, endTime - startTime)
@@ -112,12 +117,11 @@ class ScrollAccessibility : AccessibilityService() {
 
                     // Detect Scrolling
                     if (blockContent != null) {
-                        if (blockContent.isNotEmpty() && event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
+                        if (blockContent.isNotEmpty() && (event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED || event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)) {
                             if (!appStatus[it]!!) {
                                 // Start Scrolling time
                                 if (startTime == 0) {
                                     startTime = LocalTime.now().toSecondOfDay()
-                                    appTimeSpent = 1
                                 }
 
                                 // Detect single scroll per content
@@ -136,6 +140,14 @@ class ScrollAccessibility : AccessibilityService() {
                 }
             }
         }
+    }
+
+    private fun isValidAppUsage(): Boolean {
+        val currentTime = LocalTime.now().toSecondOfDay()
+        val isValidTimeSpent = startTime != 0 &&((currentTime - startTime) >= MIN_VALID_TIME_SPENT)
+        val isValidScrollCount = appScrollCount >= MIN_VALID_SCROLL_COUNT
+
+        return appPackageName.isNotEmpty() && (isValidTimeSpent || isValidScrollCount)
     }
 
     private fun saveAppUsage() {
