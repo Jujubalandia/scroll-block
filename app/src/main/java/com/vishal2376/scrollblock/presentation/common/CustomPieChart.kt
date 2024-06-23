@@ -21,63 +21,63 @@ import com.vishal2376.scrollblock.ui.theme.pieChartColors
 
 @Composable
 fun CustomPieChart(
-    data: List<Int>,
-    arcWidth: Dp = 30.dp,
-    startAngle: Float = -180f,
-    pieChartSize: Dp = 200.dp,
-    animDuration: Int = 1000,
-    gapDegrees: Float = 26f
+	data: List<Int>,
+	arcWidth: Dp = 30.dp,
+	startAngle: Float = -180f,
+	pieChartSize: Dp = 200.dp,
+	animDuration: Int = 1000,
+	gapDegrees: Float = 26f
 ) {
-    // calculate each arc value
-    val totalSum = data.sum()
-    val totalGaps = gapDegrees * data.size
-    val availableAngle = 360f - totalGaps
-    val arcValues = mutableListOf<Float>()
+	// calculate each arc value
+	val totalSum = data.sum()
+	val totalGaps = gapDegrees * data.size
+	val availableAngle = 360f - totalGaps
+	val arcValues = mutableListOf<Float>()
 
-    data.forEachIndexed { index, value ->
-        val arc = value.toFloat() / totalSum.toFloat() * availableAngle
-        arcValues.add(index, arc)
-    }
+	data.forEachIndexed { index, value ->
+		val arc = value.toFloat() / totalSum.toFloat() * availableAngle
+		arcValues.add(index, arc)
+	}
 
-    var newStartAngle = startAngle
+	var newStartAngle = startAngle
 
-    // animations
-    val animationProgress = remember { Animatable(0f) }
-    LaunchedEffect(Unit) {
-        animationProgress.animateTo(1f, animationSpec = tween(animDuration))
-    }
+	// animations
+	val animationProgress = remember { Animatable(0f) }
+	LaunchedEffect(Unit) {
+		animationProgress.animateTo(1f, animationSpec = tween(animDuration))
+	}
 
-    // draw pie chart
-    val totalColors = pieChartColors.size
+	// draw pie chart
+	val totalColors = pieChartColors.size
 
-    Column(
-        modifier = Modifier.size(pieChartSize * 1.4f),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Canvas(
-            modifier = Modifier
-                .size(pieChartSize)
-                .rotate(90f * animationProgress.value)
-        ) {
-            arcValues.forEachIndexed { index, arcValue ->
-                drawArc(
-                    color = pieChartColors[index % totalColors],
-                    startAngle = newStartAngle,
-                    useCenter = false,
-                    sweepAngle = arcValue * animationProgress.value,
-                    style = Stroke(width = arcWidth.toPx(), cap = StrokeCap.Round)
-                )
-                newStartAngle += arcValue + gapDegrees
-            }
-        }
-    }
+	Column(
+		modifier = Modifier.size(pieChartSize * 1.4f),
+		horizontalAlignment = Alignment.CenterHorizontally,
+		verticalArrangement = Arrangement.Center
+	) {
+		Canvas(
+			modifier = Modifier
+				.size(pieChartSize)
+				.rotate(90f * animationProgress.value)
+		) {
+			arcValues.forEachIndexed { index, arcValue ->
+				drawArc(
+					color = pieChartColors[index % totalColors],
+					startAngle = newStartAngle,
+					useCenter = false,
+					sweepAngle = arcValue * animationProgress.value,
+					style = Stroke(width = arcWidth.toPx(), cap = StrokeCap.Round)
+				)
+				newStartAngle += arcValue + gapDegrees
+			}
+		}
+	}
 }
 
 
 @Preview
 @Composable
 fun CustomPieChartPreview() {
-    val time = listOf<Int>(31,24, 8)
-    CustomPieChart(time)
+	val time = listOf<Int>(31, 24, 8)
+	CustomPieChart(time)
 }

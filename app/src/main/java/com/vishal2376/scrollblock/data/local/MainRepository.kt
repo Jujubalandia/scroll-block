@@ -5,23 +5,23 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
-    private val appUsageDao: AppUsageDao, private val summaryDao: SummaryDao
+	private val appUsageDao: AppUsageDao, private val summaryDao: SummaryDao
 ) {
 
-    suspend fun insertAppUsage(appUsage: AppUsage) {
-        appUsageDao.insertAppUsage(appUsage)
-    }
+	suspend fun insertAppUsage(appUsage: AppUsage) {
+		appUsageDao.insertAppUsage(appUsage)
+	}
 
-    fun getAllAppUsage(): Flow<List<AppUsage>> {
-        return appUsageDao.getAllAppUsage()
-    }
+	fun getAllAppUsage(): Flow<List<AppUsage>> {
+		return appUsageDao.getAllAppUsage()
+	}
 
-    fun getAppUsageByDate(date: String): Flow<List<AppUsage>> {
-        return appUsageDao.getAppUsageByDate(date)
-    }
+	fun getAppUsageByDate(date: String): Flow<List<AppUsage>> {
+		return appUsageDao.getAppUsageByDate(date)
+	}
 
-    fun getAppUsageByPackageName(packageName: String): Flow<List<AppUsage>> {
-        return appUsageDao.getAppUsageByPackageName(packageName)
-    }
+	fun getAppUsageByPackageName(packageName: String): Flow<List<AppUsage>> {
+		return appUsageDao.getAppUsageByPackageName(packageName)
+	}
 
 }

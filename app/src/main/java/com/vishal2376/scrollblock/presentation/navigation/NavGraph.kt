@@ -36,9 +36,13 @@ fun NavGraph(viewModel: MainViewModel) {
 		navController = navController, startDestination = startRoute
 	) {
 		composable(Screen.HomeScreen.name) {
-			HomeScreen(todayAppUsage,appState = viewModel.appState, onMainEvent = viewModel::onEvent, onNavigate = { route ->
-				navController.navigate(route = route)
-			})
+			HomeScreen(
+				todayAppUsage,
+				appState = viewModel.appState,
+				onMainEvent = viewModel::onEvent,
+				onNavigate = { route ->
+					navController.navigate(route = route)
+				})
 		}
 
 		composable(Screen.WelcomeScreen.name) {

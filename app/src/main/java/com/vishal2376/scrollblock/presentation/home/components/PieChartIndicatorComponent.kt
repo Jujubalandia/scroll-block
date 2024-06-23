@@ -17,17 +17,17 @@ import com.vishal2376.scrollblock.utils.formatTime
 
 @Composable
 fun PieChartIndicatorComponent(appName: String, time: Int, color: Color) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(16.dp)
-                .background(color, CircleShape)
-        )
-        Text(modifier = Modifier.weight(1f), text = appName, style = smallDescriptionStyle)
-        Text(formatTime(time),style = smallDescriptionStyle)
-    }
+	Row(
+		verticalAlignment = Alignment.CenterVertically,
+		horizontalArrangement = Arrangement.spacedBy(8.dp)
+	) {
+		Box(
+			modifier = Modifier
+				.size(16.dp)
+				.background(color, CircleShape)
+		)
+		Text(modifier = Modifier.weight(1f), text = appName, style = smallDescriptionStyle)
+		Text(formatTime(time), style = smallDescriptionStyle)
+	}
 
 }
