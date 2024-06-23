@@ -11,4 +11,5 @@
     <string name="share_app">Share App</string>
     <string name="source_code">Source Code</string>
     <string name="tag_line">Regain Control with Scroll Block. Download now</string>
+    <string name="buildVersion">v%1$s</string>
 </resources>

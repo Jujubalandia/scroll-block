@@ -17,6 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,6 +39,14 @@ import com.vishal2376.scrollblock.presentation.main.MainEvent
 fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 
 	val context = LocalContext.current
+	val buildVersion by remember {
+		mutableStateOf(
+			context.packageManager.getPackageInfo(
+				context.packageName,
+				0
+			).versionName
+		)
+	}
 
 	Column(
 		horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,7 +70,7 @@ fun NavigationDrawerComponent(onMainEvent: (MainEvent) -> Unit) {
 				color = MaterialTheme.colorScheme.onPrimary
 			)
 			Text(
-				text = "v1.0-beta",
+				text = stringResource(R.string.buildVersion, buildVersion),
 				fontFamily = fontRoboto,
 				fontSize = 15.sp,
 				fontWeight = FontWeight.Bold,
